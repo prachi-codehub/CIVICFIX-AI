@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CIVICFIX AI | Location Analytics</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        /* =====================================
+           PAGE
+        ===================================== */
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f3ff;
+            color: #24104f;
+        }
+
+
+        /* =====================================
+           HEADER
+        ===================================== */
+
+        .location-header {
+            background:
+                linear-gradient(
+                    135deg,
+                    #32106f,
+                    #6c2bd9,
+                    #00c6d7
+                );
+
+            color: white;
+            padding: 22px 7%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .location-logo {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .location-subtitle {
+            font-size: 13px;
+            opacity: 0.85;
+            margin-top: 4px;
+        }
+
+
+        /* =====================================
+           BUTTONS
+        ===================================== */
+
+        .top-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .top-buttons a {
+            text-decoration: none;
+            color: white;
+
+            padding: 10px 17px;
+
+            border: 1px solid
+                rgba(255,255,255,0.4);
+
+            border-radius: 10px;
+
+            font-size: 14px;
+        }
+
+        .top-buttons a:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+
+        /* =====================================
+           MAIN
+        ===================================== */
+
+        .location-container {
+            width: 86%;
+            max-width: 1200px;
+
+            margin: 35px auto;
+        }
+
+
+        .page-title {
+            margin-bottom: 25px;
+        }
+
+        .page-title h1 {
+            margin-bottom: 8px;
+            font-size: 32px;
+        }
+
+        .page-title p {
+            color: #6b6380;
+        }
+
+
+        /* =====================================
+           STAT CARDS
+        ===================================== */
+
+        .location-stats {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 30px;
+        }
+
+        .location-stat-card {
+            background: white;
+
+            padding: 23px;
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 8px 25px
+                rgba(61, 27, 112, 0.08);
+
+            border: 1px solid #ebe4fa;
+        }
+
+        .location-stat-card span {
+            display: block;
+            font-size: 13px;
+            color: #777080;
+            margin-bottom: 8px;
+        }
+
+        .location-stat-card strong {
+            font-size: 30px;
+            color: #5422a3;
+        }
+
+
+        /* =====================================
+           LOCATION CARDS
+        ===================================== */
+
+        .location-list {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 20px;
+        }
+
+
+        .area-card {
+            background: white;
+
+            border-radius: 20px;
+
+            padding: 23px;
+
+            box-shadow:
+                0 8px 25px
+                rgba(61, 27, 112, 0.08);
+
+            border: 1px solid #ebe4fa;
+
+            transition: 0.3s;
+        }
+
+        .area-card:hover {
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 14px 35px
+                rgba(61, 27, 112, 0.14);
+        }
+
+
+        .area-top {
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            margin-bottom: 18px;
+        }
+
+
+        .area-name {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+
+        .complaint-count {
+            background:
+                linear-gradient(
+                    135deg,
+                    #6c2bd9,
+                    #00aebe
+                );
+
+            color: white;
+
+            padding: 7px 13px;
+
+            border-radius: 20px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+        }
+
+
+        /* =====================================
+           PROGRESS BAR
+        ===================================== */
+
+        .progress-label {
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            font-size: 12px;
+
+            color: #777080;
+
+            margin-bottom: 7px;
+        }
+
+
+        .progress {
+            height: 9px;
+
+            background: #eeeafa;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+        }
+
+
+        .progress-fill {
+            height: 100%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #6c2bd9,
+                    #00c6d7
+                );
+
+            border-radius: 20px;
+        }
+
+
+        /* =====================================
+           CATEGORY INFO
+        ===================================== */
+
+        .area-details {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 8px;
+
+            margin-top: 18px;
+        }
+
+
+        .category-tag {
+            background: #f2edff;
+
+            color: #5b28a9;
+
+            padding: 7px 10px;
+
+            border-radius: 8px;
+
+            font-size: 12px;
+        }
+
+
+        /* =====================================
+           EMPTY / LOADING
+        ===================================== */
+
+        .loading {
+            background: white;
+
+            padding: 40px;
+
+            text-align: center;
+
+            border-radius: 18px;
+
+            color: #777080;
+        }
+
+
+        .no-data {
+            background: white;
+
+            padding: 40px;
+
+            text-align: center;
+
+            border-radius: 18px;
+
+            color: #777080;
+        }
+
+
+        /* =====================================
+           FOOTER
+        ===================================== */
+
+        .location-footer {
+            text-align: center;
+
+            padding: 30px;
+
+            color: #777080;
+
+            font-size: 13px;
+        }
+
+
+        /* =====================================
+           RESPONSIVE
+        ===================================== */
+
+        @media (max-width: 800px) {
+
+            .location-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .location-list {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+
+            .location-header {
+                padding: 20px;
+            }
+
+            .location-container {
+                width: 92%;
+            }
+
+            .page-title h1 {
+                font-size: 26px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ==========================================
+     HEADER
+========================================== -->
+
+<header class="location-header">
+
+    <div>
+
+        <div class="location-logo">
+            ✦ CIVICFIX AI
+        </div>
+
+        <div class="location-subtitle">
+            Smart Location Intelligence
+        </div>
+
+    </div>
+
+
+    <div class="top-buttons">
+
+        <a href="admin.html">
+            ← Dashboard
+        </a>
+
+        <a href="index.html">
+            Home
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- ==========================================
+     MAIN
+========================================== -->
+
+<main class="location-container">
+
+
+    <div class="page-title">
+
+        <h1>
+            📍 Location Analytics
+        </h1>
+
+        <p>
+            Identify areas with higher numbers of civic complaints
+            and understand local problem patterns.
+        </p>
+
+    </div>
+
+
+
+    <!-- ======================================
+         STATISTICS
+    ======================================= -->
+
+    <div class="location-stats">
+
+
+        <div class="location-stat-card">
+
+            <span>
+                TOTAL COMPLAINTS
+            </span>
+
+            <strong id="totalComplaints">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="location-stat-card">
+
+            <span>
+                AREAS IDENTIFIED
+            </span>
+
+            <strong id="totalAreas">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="location-stat-card">
+
+            <span>
+                MOST REPORTED AREA
+            </span>
+
+            <strong id="topArea">
+                —
+            </strong>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ======================================
+         LOCATION LIST
+    ======================================= -->
+
+    <div id="locationList">
+
+        <div class="loading">
+            🤖 Analyzing complaint locations...
+        </div>
+
+    </div>
+
+
+</main>
+
+
+
+<!-- ==========================================
+     FOOTER
+========================================== -->
+
+<footer class="location-footer">
+
+    ✦ CIVICFIX AI
+    <br>
+
+    AI-Powered Smart Civic Complaint &
+    Resolution Platform
+
+    <br><br>
+
+    CivicNova • AI for Smart & Sustainable Cities
+
+</footer>
+
+
+
+<!-- ==========================================
+     JAVASCRIPT
+========================================== -->
+
+<script>
+
+async function loadLocationAnalytics() {
+
+    try {
+
+        const response =
+            await fetch("get_complaints.php");
+
+
+        const complaints =
+            await response.json();
+
+
+        console.log(
+            "Complaints:",
+            complaints
+        );
+
+
+        // ======================================
+        // CHECK DATA
+        // ======================================
+
+        if (
+            !Array.isArray(complaints) ||
+            complaints.length === 0
+        ) {
+
+            document.getElementById(
+                "locationList"
+            ).innerHTML = `
+
+                <div class="no-data">
+
+                    📍 No complaint data available yet.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        // ======================================
+        // GROUP BY LOCATION
+        // ======================================
+
+        const locations = {};
+
+
+        complaints.forEach(function(complaint) {
+
+            const location =
+                (complaint.location || "Unknown")
+                .trim();
+
+
+            if (!locations[location]) {
+
+                locations[location] = {
+
+                    count: 0,
+
+                    categories: {}
+
+                };
+
+            }
+
+
+            locations[location].count++;
+
+
+            const category =
+                complaint.category || "Other";
+
+
+            if (
+                !locations[location]
+                    .categories[category]
+            ) {
+
+                locations[location]
+                    .categories[category] = 0;
+
+            }
+
+
+            locations[location]
+                .categories[category]++;
+
+        });
+
+
+        // ======================================
+        // SORT LOCATIONS
+        // ======================================
+
+        const sortedLocations =
+            Object.entries(locations)
+                .sort(
+                    (a, b) =>
+                        b[1].count -
+                        a[1].count
+                );
+
+
+        // ======================================
+        // UPDATE STATISTICS
+        // ======================================
+
+        document.getElementById(
+            "totalComplaints"
+        ).textContent =
+            complaints.length;
+
+
+        document.getElementById(
+            "totalAreas"
+        ).textContent =
+            sortedLocations.length;
+
+
+        document.getElementById(
+            "topArea"
+        ).textContent =
+            sortedLocations[0][0];
+
+
+        // ======================================
+        // FIND MAX
+        // ======================================
+
+        const maxCount =
+            sortedLocations[0][1].count;
+
+
+        // ======================================
+        // CREATE LOCATION CARDS
+        // ======================================
+
+        let html = "";
+
+
+        sortedLocations.forEach(
+            function(item) {
+
+                const location =
+                    item[0];
+
+                const data =
+                    item[1];
+
+
+                const percentage =
+                    Math.round(
+                        (data.count /
+                            maxCount) * 100
+                    );
+
+
+                // Category tags
+
+                let categoryHTML = "";
+
+
+                Object.entries(
+                    data.categories
+                ).forEach(
+                    function(categoryItem) {
+
+                        categoryHTML += `
+
+                            <span class="category-tag">
+
+                                ${categoryItem[0]}
+                                (${categoryItem[1]})
+
+                            </span>
+
+                        `;
+
+                    }
+                );
+
+
+                html += `
+
+                    <div class="area-card">
+
+
+                        <div class="area-top">
+
+                            <div class="area-name">
+
+                                📍 ${location}
+
+                            </div>
+
+
+                            <div class="complaint-count">
+
+                                ${data.count}
+                                Complaint${data.count > 1 ? "s" : ""}
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="progress-label">
+
+                            <span>
+                                Complaint Activity
+                            </span>
+
+                            <span>
+                                ${percentage}%
+                            </span>
+
+                        </div>
+
+
+                        <div class="progress">
+
+                            <div
+                                class="progress-fill"
+                                style="width:${percentage}%"
+                            ></div>
+
+                        </div>
+
+
+                        <div class="area-details">
+
+                            ${categoryHTML}
+
+                        </div>
+
+
+                    </div>
+
+                `;
+
+            }
+        );
+
+
+        document.getElementById(
+            "locationList"
+        ).innerHTML = html;
+
+
+    }
+    catch (error) {
+
+        console.error(
+            "Location Analytics Error:",
+            error
+        );
+
+
+        document.getElementById(
+            "locationList"
+        ).innerHTML = `
+
+            <div class="no-data">
+
+                ⚠️ Unable to load complaint data.
+
+                <br><br>
+
+                Make sure XAMPP Apache is running
+                and get_complaints.php is working.
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+// Load analytics
+loadLocationAnalytics();
+
+</script>
+
+
+</body>
+
+</html>

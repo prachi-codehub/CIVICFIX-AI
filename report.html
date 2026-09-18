@@ -1,0 +1,1593 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CIVICFIX AI | Report Civic Issue</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f3ff, #ecfeff);
+            color: #1f2937;
+            min-height: 100vh;
+        }
+
+        /* ================= HEADER ================= */
+
+        header {
+            background: linear-gradient(135deg, #4c1d95, #6d28d9, #0891b2);
+            color: white;
+            padding: 20px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .logo-area h1 {
+            font-size: 28px;
+            letter-spacing: 1px;
+        }
+
+        .logo-area p {
+            margin-top: 5px;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* ================= NAVIGATION ================= */
+
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 9px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        nav a.active {
+            background: rgba(255, 255, 255, 0.25);
+            font-weight: bold;
+        }
+
+        /* ================= MAIN ================= */
+
+        main {
+            width: 92%;
+            max-width: 1000px;
+            margin: 45px auto;
+        }
+
+        .page-heading {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-heading h2 {
+            font-size: 34px;
+            color: #4c1d95;
+            margin-bottom: 10px;
+        }
+
+        .page-heading p {
+            color: #64748b;
+            font-size: 16px;
+        }
+
+        /* ================= FORM CARD ================= */
+
+        .form-card {
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 10px 35px rgba(76, 29, 149, 0.12);
+            border: 1px solid #e9d5ff;
+        }
+
+        .section-title {
+            color: #4c1d95;
+            font-size: 21px;
+            margin-bottom: 22px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ede9fe;
+        }
+
+        /* ================= FORM ================= */
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .required {
+            color: #dc2626;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 13px 15px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+            background: white;
+            transition: 0.3s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #7c3aed;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+        }
+
+        textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        .input-help {
+            margin-top: 6px;
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        /* ================= IMAGE SECTION ================= */
+
+        .image-section {
+            margin-top: 28px;
+            padding: 22px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #faf5ff, #ecfeff);
+            border: 1px dashed #a78bfa;
+        }
+
+        .image-section h3 {
+            color: #4c1d95;
+            margin-bottom: 8px;
+        }
+
+        .image-section p {
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+
+        .image-upload {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        input[type="file"] {
+            padding: 12px;
+            background: white;
+            cursor: pointer;
+        }
+
+        /* ================= IMAGE PREVIEW ================= */
+
+        #imagePreview {
+            display: none;
+            max-width: 300px;
+            max-height: 220px;
+            margin-top: 10px;
+            border-radius: 12px;
+            border: 2px solid #ddd6fe;
+            object-fit: cover;
+        }
+
+        /* ================= ANALYZE BUTTON ================= */
+
+        .analyze-btn {
+            background: linear-gradient(135deg, #0891b2, #06b6d4);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 9px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            width: fit-content;
+        }
+
+        .analyze-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(8, 145, 178, 0.3);
+        }
+
+        .analyze-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ================= AI IMAGE RESULT ================= */
+
+        .ai-image-box {
+            margin-top: 18px;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            border-left: 5px solid #0891b2;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .ai-image-box h4 {
+            color: #0e7490;
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+
+        #imageAnalysisResult {
+            color: #475569;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .analysis-success {
+            color: #166534;
+        }
+
+        .analysis-error {
+            color: #b91c1c;
+        }
+
+        .analysis-loading {
+            color: #0e7490;
+        }
+
+        /* ================= SUBMIT ================= */
+
+        .submit-area {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .submit-btn {
+            width: 100%;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #4c1d95, #7c3aed);
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(76, 29, 149, 0.3);
+        }
+
+        .submit-note {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        /* ================= AI INFO ================= */
+
+        .ai-info {
+            margin-top: 28px;
+            padding: 20px;
+            border-radius: 15px;
+            background: #f5f3ff;
+            border: 1px solid #ddd6fe;
+        }
+
+        .ai-info h3 {
+            color: #4c1d95;
+            margin-bottom: 12px;
+        }
+
+        .ai-flow {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .flow-item {
+            background: white;
+            padding: 14px 8px;
+            text-align: center;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .flow-item span {
+            display: block;
+            font-size: 22px;
+            margin-bottom: 6px;
+        }
+
+        /* ================= RESULT ================= */
+
+        #complaintResult {
+            margin-top: 25px;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            margin-top: 50px;
+            background: #1e1b4b;
+            color: white;
+            text-align: center;
+            padding: 25px 15px;
+        }
+
+        footer p {
+            font-size: 13px;
+            opacity: 0.85;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 800px) {
+
+            header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .ai-flow {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .page-heading h2 {
+                font-size: 28px;
+            }
+
+            .form-card {
+                padding: 25px;
+            }
+
+        }
+
+        @media (max-width: 500px) {
+
+            main {
+                width: 94%;
+                margin: 30px auto;
+            }
+
+            .form-card {
+                padding: 20px;
+            }
+
+            .ai-flow {
+                grid-template-columns: 1fr;
+            }
+
+            nav a {
+                font-size: 12px;
+                padding: 8px 9px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= HEADER ================= -->
+
+<header>
+
+    <div class="logo-area">
+
+        <h1>🏙️ CIVICFIX AI</h1>
+
+        <p>
+            AI-Powered Smart Civic Complaint & Resolution Platform
+        </p>
+
+    </div>
+
+
+    <nav>
+
+        <a href="index.html">
+            🏠 Home
+        </a>
+
+        <a href="citizen.html">
+            👤 Citizen Dashboard
+        </a>
+
+        <a href="track.html">
+            🔎 Track Complaint
+        </a>
+
+        <a href="admin.html">
+            🏛️ Authority Dashboard
+        </a>
+
+    </nav>
+
+</header>
+
+
+<!-- ================= MAIN ================= -->
+
+<main>
+
+
+    <div class="page-heading">
+
+        <h2>
+            📢 Report a Civic Issue
+        </h2>
+
+        <p>
+            Submit your complaint and let CIVICFIX AI analyze,
+            prioritize and route it to the appropriate department.
+        </p>
+
+    </div>
+
+
+    <!-- ================= FORM CARD ================= -->
+
+    <div class="form-card">
+
+
+        <h3 class="section-title">
+            📝 Complaint Information
+        </h3>
+
+
+      <form id="complaintForm" enctype="multipart/form-data">
+
+
+            <!-- ================= ISSUE + CATEGORY ================= -->
+
+            <div class="form-row">
+
+
+                <div class="form-group">
+
+                    <label for="issueTitle">
+
+                        Issue Title
+
+                        <span class="required">*</span>
+
+                    </label>
+
+
+                    <input
+                        type="text"
+                        id="issueTitle"
+                        name="issueTitle"
+                        placeholder="Example: Water pipeline leakage"
+                        required
+                    >
+
+
+                    <div class="input-help">
+
+                        Briefly describe the civic problem.
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="category">
+
+                        Category
+
+                        <span class="required">*</span>
+
+                    </label>
+
+
+                    <select
+                        id="category"
+                        name="category"
+                        required
+                    >
+
+                        <option value="">
+                            Select Category
+                        </option>
+
+                        <option value="Road">
+                            🚧 Road
+                        </option>
+
+                        <option value="Garbage">
+                            🗑️ Garbage
+                        </option>
+
+                        <option value="Water">
+                            💧 Water
+                        </option>
+
+                        <option value="Streetlight">
+                            💡 Streetlight
+                        </option>
+
+                        <option value="Drainage">
+                            🌊 Drainage
+                        </option>
+
+                        <option value="Other">
+                            📌 Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= LOCATION ================= -->
+
+            <div class="form-group">
+
+                <label for="location">
+
+                    📍 Location
+
+                    <span class="required">*</span>
+
+                </label>
+
+
+                <input
+                    type="text"
+                    id="location"
+                    name="location"
+                    placeholder="Example: Nashik Road, Maharashtra"
+                    required
+                >
+
+
+                <div class="input-help">
+
+                    Enter the area, street or landmark where the issue occurred.
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= DESCRIPTION ================= -->
+
+            <div class="form-group">
+
+                <label for="description">
+
+                    📄 Description
+
+                    <span class="required">*</span>
+
+                </label>
+
+
+                <textarea
+                    id="description"
+                    name="description"
+                    placeholder="Describe the problem in detail..."
+                    required
+                ></textarea>
+
+
+                <div class="input-help">
+
+                    More details help the AI generate better prioritization and routing.
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= IMAGE UPLOAD ================= -->
+
+            <div class="image-section">
+
+
+                <h3>
+                    📸 Upload Complaint Image
+                </h3>
+
+
+                <p>
+
+                    Upload an image of the civic issue for
+                    AI-powered visual analysis.
+
+                </p>
+
+
+                <div class="image-upload">
+
+
+                    <input
+                        type="file"
+                        id="complaintImage"
+                        name="complaintImage"
+                        accept="image/jpeg,image/png,image/webp"
+                    >
+
+
+                    <img
+                        id="imagePreview"
+                        alt="Complaint image preview"
+                    >
+
+
+                    <button
+                        type="button"
+                        id="analyzeImageBtn"
+                        class="analyze-btn"
+                    >
+
+                        🤖 Analyze Image
+
+                    </button>
+
+
+                </div>
+
+
+                <!-- ================= AI RESULT ================= -->
+
+                <div
+                    class="ai-image-box"
+                    id="imageAnalysisBox"
+                    style="display:none;"
+                >
+
+                    <h4>
+                        🤖 AI Image Analysis
+                    </h4>
+
+
+                    <div id="imageAnalysisResult">
+
+                        Waiting for image analysis...
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= SUBMIT ================= -->
+
+            <div class="submit-area">
+
+
+                <button
+                    type="submit"
+                    class="submit-btn"
+                >
+
+                    🚀 Submit Complaint
+
+                </button>
+
+
+                <p class="submit-note">
+
+                    Your complaint will be analyzed and routed
+                    to the relevant authority.
+
+                </p>
+
+            </div>
+
+
+        </form>
+
+
+        <!-- ================= AI FLOW ================= -->
+
+        <div class="ai-info">
+
+
+            <h3>
+
+                🤖 How CIVICFIX AI Works
+
+            </h3>
+
+
+            <div class="ai-flow">
+
+
+                <div class="flow-item">
+
+                    <span>📢</span>
+
+                    Report
+
+                </div>
+
+
+                <div class="flow-item">
+
+                    <span>🤖</span>
+
+                    Analyze
+
+                </div>
+
+
+                <div class="flow-item">
+
+                    <span>⚡</span>
+
+                    Prioritize
+
+                </div>
+
+
+                <div class="flow-item">
+
+                    <span>🏛️</span>
+
+                    Route
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= SCRIPT RESULT ================= -->
+
+        <div id="complaintResult"></div>
+
+
+    </div>
+
+</main>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <p>
+        © 2026 CIVICFIX AI | CivicNova
+    </p>
+
+    <p style="margin-top:6px;">
+
+        AI for Smart & Sustainable Cities
+
+    </p>
+
+</footer>
+
+
+<!-- ================= EXISTING SCRIPT ================= -->
+
+<script src="script.js"></script>
+
+
+<!-- ================= REAL GEMINI IMAGE ANALYSIS ================= -->
+
+<script>
+
+
+    /* =====================================================
+       GET HTML ELEMENTS
+    ===================================================== */
+
+    const imageInput =
+        document.getElementById("complaintImage");
+
+
+    const imagePreview =
+        document.getElementById("imagePreview");
+
+
+    const analyzeImageBtn =
+        document.getElementById("analyzeImageBtn");
+
+
+    const imageAnalysisBox =
+        document.getElementById("imageAnalysisBox");
+
+
+    const imageAnalysisResult =
+        document.getElementById("imageAnalysisResult");
+
+
+    const categorySelect =
+        document.getElementById("category");
+
+
+    /* =====================================================
+       IMAGE PREVIEW
+    ===================================================== */
+
+    imageInput.addEventListener(
+        "change",
+        function () {
+
+
+            const file =
+                this.files[0];
+
+
+            if (!file) {
+
+                imagePreview.style.display =
+                    "none";
+
+                imageAnalysisBox.style.display =
+                    "none";
+
+                imageAIAnalysis = {
+
+                    category: "",
+                    priority: "",
+                    department: "",
+                    issue: "",
+                    recommendation: ""
+
+                };
+
+                return;
+
+            }
+
+
+            /* Check file type */
+
+            if (!file.type.startsWith("image/")) {
+
+                alert(
+                    "Please select a valid image."
+                );
+
+                this.value = "";
+
+                return;
+
+            }
+
+
+            /* Check file size */
+
+            if (
+                file.size >
+                5 * 1024 * 1024
+            ) {
+
+                alert(
+                    "Image must be less than 5 MB."
+                );
+
+                this.value = "";
+
+                imagePreview.style.display =
+                    "none";
+
+                return;
+
+            }
+
+
+            /* Reset previous AI result */
+
+            imageAIAnalysis = {
+
+                category: "",
+                priority: "",
+                department: "",
+                issue: "",
+                recommendation: ""
+
+            };
+
+
+            imageAnalysisBox.style.display =
+                "none";
+
+
+            /* Show preview */
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                function (event) {
+
+                    imagePreview.src =
+                        event.target.result;
+
+                    imagePreview.style.display =
+                        "block";
+
+                };
+
+
+            reader.readAsDataURL(file);
+
+        }
+    );
+
+
+    /* =====================================================
+       ANALYZE IMAGE
+    ===================================================== */
+
+    analyzeImageBtn.addEventListener(
+        "click",
+        async function () {
+
+
+            const file =
+                imageInput.files[0];
+
+
+            /* No image */
+
+            if (!file) {
+
+                alert(
+                    "Please select an image first."
+                );
+
+                return;
+
+            }
+
+
+            /* Show result */
+
+            imageAnalysisBox.style.display =
+                "block";
+
+
+            imageAnalysisResult.innerHTML =
+
+                "<div class='analysis-loading'>" +
+
+                "🔄 <strong>CIVICFIX AI is analyzing the image...</strong>" +
+
+                "<br><br>" +
+
+                "Please wait a few seconds." +
+
+                "</div>";
+
+
+            /* Disable button */
+
+            analyzeImageBtn.disabled =
+                true;
+
+
+            analyzeImageBtn.innerText =
+                "🔄 Analyzing...";
+
+
+            try {
+
+
+                /* =================================================
+                   CREATE FORM DATA
+                ================================================= */
+
+                const formData =
+                    new FormData();
+
+
+                formData.append(
+                    "complaintImage",
+                    file
+                );
+
+
+                /* =================================================
+                   SEND IMAGE TO GEMINI PHP
+                ================================================= */
+
+                const response =
+                    await fetch(
+                        "analyze_image.php",
+                        {
+                            method: "POST",
+                            body: formData
+                        }
+                    );
+
+
+                /* Read server response */
+
+                const responseText =
+                    await response.text();
+
+
+                console.log(
+                    "CIVICFIX AI Server Response:",
+                    responseText
+                );
+
+
+                /* =================================================
+                   CONVERT RESPONSE TO JSON
+                ================================================= */
+
+                let data;
+
+
+                try {
+
+                    data =
+                        JSON.parse(responseText);
+
+                }
+
+                catch (jsonError) {
+
+                    imageAnalysisResult.innerHTML =
+
+                        "<div class='analysis-error'>" +
+
+                        "❌ <strong>Server Response Error</strong>" +
+
+                        "</div>" +
+
+                        "<br>" +
+
+                        "<pre style='white-space:pre-wrap;'>" +
+
+                        escapeHTML(
+                            responseText
+                        ) +
+
+                        "</pre>";
+
+
+                    return;
+
+                }
+
+
+                /* =================================================
+                   AI SUCCESS
+                ================================================= */
+
+                if (data.success) {
+
+
+                    const aiAnalysisText =
+                        data.analysis || "";
+
+
+                    /* Display Gemini result */
+
+                    imageAnalysisResult.innerHTML =
+
+                        "<div class='analysis-success'>" +
+
+                        "✅ <strong>AI Analysis Completed</strong>" +
+
+                        "</div>" +
+
+                        "<br>" +
+
+                        "<div style='white-space:pre-line;'>" +
+
+                        escapeHTML(
+                            aiAnalysisText
+                        ) +
+
+                        "</div>";
+
+
+                    /* =================================================
+                       EXTRACT AI FIELDS
+                    ================================================= */
+
+                    const detectedIssue =
+                        extractAIField(
+                            aiAnalysisText,
+                            "Issue"
+                        );
+
+
+                    const detectedCategory =
+                        extractAIField(
+                            aiAnalysisText,
+                            "Category"
+                        );
+
+
+                    const detectedSeverity =
+                        extractAIField(
+                            aiAnalysisText,
+                            "Severity"
+                        );
+
+
+                    const detectedDepartment =
+                        extractAIField(
+                            aiAnalysisText,
+                            "Department"
+                        );
+
+
+                    const detectedRecommendation =
+                        extractAIField(
+                            aiAnalysisText,
+                            "Recommendation"
+                        );
+
+
+                    /* =================================================
+                       NORMALIZE CATEGORY
+                    ================================================= */
+
+                    let normalizedCategory =
+                        detectedCategory;
+
+
+                    if (normalizedCategory) {
+
+
+                        const categoryLower =
+                            normalizedCategory.toLowerCase();
+
+
+                        if (
+                            categoryLower.includes("water")
+                        ) {
+
+                            normalizedCategory =
+                                "Water";
+
+                        }
+
+                        else if (
+                            categoryLower.includes("road")
+                        ) {
+
+                            normalizedCategory =
+                                "Road";
+
+                        }
+
+                        else if (
+                            categoryLower.includes("garbage")
+                        ) {
+
+                            normalizedCategory =
+                                "Garbage";
+
+                        }
+
+                        else if (
+                            categoryLower.includes("streetlight") ||
+                            categoryLower.includes("street light")
+                        ) {
+
+                            normalizedCategory =
+                                "Streetlight";
+
+                        }
+
+                        else if (
+                            categoryLower.includes("drainage")
+                        ) {
+
+                            normalizedCategory =
+                                "Drainage";
+
+                        }
+
+                        else {
+
+                            normalizedCategory =
+                                "Other";
+
+                        }
+
+                    }
+
+
+                    /* =================================================
+                       NORMALIZE PRIORITY
+                    ================================================= */
+
+                    let normalizedPriority =
+                        detectedSeverity;
+
+
+                    if (normalizedPriority) {
+
+
+                        const priorityLower =
+                            normalizedPriority.toLowerCase();
+
+
+                        if (
+                            priorityLower.includes("high")
+                        ) {
+
+                            normalizedPriority =
+                                "High";
+
+                        }
+
+                        else if (
+                            priorityLower.includes("medium")
+                        ) {
+
+                            normalizedPriority =
+                                "Medium";
+
+                        }
+
+                        else if (
+                            priorityLower.includes("low")
+                        ) {
+
+                            normalizedPriority =
+                                "Low";
+
+                        }
+
+                        else {
+
+                            normalizedPriority =
+                                "";
+
+                        }
+
+                    }
+
+
+                    /* =================================================
+                       SAVE GEMINI RESULT
+                    ================================================= */
+
+                    imageAIAnalysis = {
+
+                        category:
+                            normalizedCategory,
+
+                        priority:
+                            normalizedPriority,
+
+                        department:
+                            detectedDepartment,
+
+                        issue:
+                            detectedIssue,
+
+                        recommendation:
+                            detectedRecommendation
+
+                    };
+
+
+                    /* =================================================
+                       AUTOMATIC CATEGORY SELECTION
+                    ================================================= */
+
+                    if (
+                        normalizedCategory
+                    ) {
+
+                        categorySelect.value =
+                            normalizedCategory;
+
+                    }
+
+
+                    /* =================================================
+                       SHOW AUTOMATIC CLASSIFICATION
+                    ================================================= */
+
+                    let automaticMessage =
+
+                        "<br><br>" +
+
+                        "<strong>⚡ CIVICFIX AI Automatic Classification</strong>" +
+
+                        "<br><br>";
+
+
+                    if (
+                        detectedIssue
+                    ) {
+
+                        automaticMessage +=
+
+                            "🔎 Issue: <strong>" +
+
+                            escapeHTML(
+                                detectedIssue
+                            ) +
+
+                            "</strong><br>";
+
+                    }
+
+
+                    if (
+                        normalizedCategory
+                    ) {
+
+                        automaticMessage +=
+
+                            "📂 Category: <strong>" +
+
+                            escapeHTML(
+                                normalizedCategory
+                            ) +
+
+                            "</strong><br>";
+
+                    }
+
+
+                    if (
+                        normalizedPriority
+                    ) {
+
+                        automaticMessage +=
+
+                            "⚡ Priority: <strong>" +
+
+                            escapeHTML(
+                                normalizedPriority
+                            ) +
+
+                            "</strong><br>";
+
+                    }
+
+
+                    if (
+                        detectedDepartment
+                    ) {
+
+                        automaticMessage +=
+
+                            "🏛️ Department: <strong>" +
+
+                            escapeHTML(
+                                detectedDepartment
+                            ) +
+
+                            "</strong><br>";
+
+                    }
+
+
+                    if (
+                        detectedRecommendation
+                    ) {
+
+                        automaticMessage +=
+
+                            "💡 Recommendation: <strong>" +
+
+                            escapeHTML(
+                                detectedRecommendation
+                            ) +
+
+                            "</strong>";
+
+                    }
+
+
+                    imageAnalysisResult.innerHTML +=
+                        automaticMessage;
+
+
+                    /* Console for testing */
+
+                    console.log(
+                        "CIVICFIX AI Structured Result:",
+                        imageAIAnalysis
+                    );
+
+                }
+
+
+                /* =================================================
+                   AI ERROR
+                ================================================= */
+
+                else {
+
+
+                    imageAnalysisResult.innerHTML =
+
+                        "<div class='analysis-error'>" +
+
+                        "❌ <strong>AI Analysis Failed</strong>" +
+
+                        "</div>" +
+
+                        "<br>" +
+
+                        "<pre style='white-space:pre-wrap;'>" +
+
+                        escapeHTML(
+                            data.message ||
+                            "Unknown error"
+                        ) +
+
+                        "</pre>";
+
+                }
+
+            }
+
+
+            /* =================================================
+               CONNECTION ERROR
+            ================================================= */
+
+            catch (error) {
+
+
+                console.error(error);
+
+
+                imageAnalysisResult.innerHTML =
+
+                    "<div class='analysis-error'>" +
+
+                    "❌ <strong>Connection Error</strong>" +
+
+                    "</div>" +
+
+                    "<br>" +
+
+                    "<pre style='white-space:pre-wrap;'>" +
+
+                    escapeHTML(
+                        error.message
+                    ) +
+
+                    "</pre>";
+
+            }
+
+
+            /* Enable button again */
+
+            analyzeImageBtn.disabled =
+                false;
+
+
+            analyzeImageBtn.innerText =
+                "🤖 Analyze Image";
+
+        }
+    );
+
+
+    /* =====================================================
+       EXTRACT AI FIELD
+    ===================================================== */
+
+    function extractAIField(
+        text,
+        fieldName
+    ) {
+
+
+        const regex =
+            new RegExp(
+                "^\\s*" +
+                fieldName +
+                "\\s*:\\s*(.+)$",
+                "im"
+            );
+
+
+        const match =
+            text.match(regex);
+
+
+        if (match) {
+
+            return match[1].trim();
+
+        }
+
+
+        return "";
+
+    }
+
+
+    /* =====================================================
+       SECURITY HELPER
+    ===================================================== */
+
+    function escapeHTML(text) {
+
+
+        const div =
+            document.createElement("div");
+
+
+        div.textContent =
+            text || "";
+
+
+        return div.innerHTML;
+
+    }
+
+</script>
+
+
+</body>
+
+</html>

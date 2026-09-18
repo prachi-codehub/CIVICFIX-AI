@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CIVICFIX AI | Authority Dashboard</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f3ff;
+            color: #1f2937;
+        }
+
+        /* HEADER */
+        header {
+            background: linear-gradient(135deg, #4c1d95, #7c3aed);
+            color: white;
+            padding: 22px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 28px;
+        }
+
+        header p {
+            margin-top: 5px;
+            opacity: 0.9;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .header-buttons a {
+            text-decoration: none;
+            color: white;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 10px 16px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .header-buttons a:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* MAIN */
+        .container {
+            width: 95%;
+            max-width: 1400px;
+            margin: 30px auto;
+        }
+
+        /* STATS */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 22px;
+            border-radius: 15px;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-card h3 {
+            color: #6b7280;
+            font-size: 15px;
+        }
+
+        .stat-card p {
+            font-size: 30px;
+            font-weight: bold;
+            color: #6d28d9;
+            margin-top: 8px;
+        }
+
+        /* FILTER BOX */
+        .filter-box {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
+        }
+
+        .filter-box h2 {
+            margin-bottom: 15px;
+            color: #4c1d95;
+        }
+
+        .filters {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr auto;
+            gap: 10px;
+        }
+
+        .filters input,
+        .filters select {
+            padding: 11px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        .filters input:focus,
+        .filters select:focus {
+            border-color: #7c3aed;
+        }
+
+        .reset-btn {
+            border: none;
+            background: #6d28d9;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .reset-btn:hover {
+            background: #4c1d95;
+        }
+
+        .complaint-count {
+            margin-top: 12px;
+            color: #6b7280;
+        }
+
+        /* TABLE */
+        .table-box {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #4c1d95;
+            color: white;
+            padding: 13px;
+            text-align: left;
+        }
+
+        td {
+            padding: 13px;
+            border-bottom: 1px solid #e5e7eb;
+            vertical-align: middle;
+        }
+
+        tr:hover {
+            background: #faf5ff;
+        }
+
+        /* PRIORITY */
+        .priority-high {
+            color: #dc2626;
+            background: #fee2e2;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .priority-medium {
+            color: #d97706;
+            background: #fef3c7;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .priority-low {
+            color: #16a34a;
+            background: #dcfce7;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        /* STATUS */
+        .status-select {
+            padding: 7px;
+            border-radius: 7px;
+            border: 1px solid #d1d5db;
+        }
+
+        /* BUTTONS */
+        .view-btn,
+        .update-btn,
+        .ai-btn {
+            color: white;
+            border: none;
+            padding: 8px 13px;
+            border-radius: 7px;
+            cursor: pointer;
+            margin: 2px;
+        }
+
+        .view-btn {
+            background: #0891b2;
+        }
+
+        .view-btn:hover {
+            background: #0e7490;
+        }
+
+        .update-btn {
+            background: #7c3aed;
+        }
+
+        .update-btn:hover {
+            background: #5b21b6;
+        }
+
+        .ai-btn {
+            background: #059669;
+        }
+
+        .ai-btn:hover {
+            background: #047857;
+        }
+
+        /* EMPTY */
+        .empty-message {
+            text-align: center;
+            padding: 30px;
+            color: #6b7280;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.55);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            width: 100%;
+            max-width: 650px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 18px;
+            padding: 28px;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        .modal-content h2 {
+            color: #4c1d95;
+            margin-bottom: 20px;
+        }
+
+        .close-btn {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #6b7280;
+        }
+
+        .close-btn:hover {
+            color: #111827;
+        }
+
+        .detail-item {
+            margin-bottom: 15px;
+            padding: 12px;
+            background: #f9fafb;
+            border-radius: 9px;
+        }
+
+        .detail-item strong {
+            display: block;
+            color: #4c1d95;
+            margin-bottom: 5px;
+        }
+
+        .detail-description {
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        /* AI SUMMARY */
+        .ai-summary-box {
+            background: linear-gradient(135deg, #ecfdf5, #f0fdf4);
+            border: 1px solid #86efac;
+            border-left: 5px solid #059669;
+            padding: 18px;
+            border-radius: 12px;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        .ai-summary-title {
+            color: #047857;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .loading-summary {
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 25px;
+            margin-top: 30px;
+            background: #1e1b4b;
+            color: white;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1000px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .filters {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 20px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .filters {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                width: 92%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+
+        <div>
+            <h1>🏙️ CIVICFIX AI</h1>
+            <p>Authority Complaint Management Dashboard</p>
+        </div>
+
+        <div class="header-buttons">
+
+            <a href="analytics.html">
+                📊 Analytics
+            </a>
+
+            <a href="location_analytics.html">
+                📍 Location Analytics
+            </a>
+
+            <a href="map.html">
+                🗺️ Map View
+            </a>
+
+            <a href="index.html">
+                🏠 Home
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <main class="container">
+
+        <!-- STATS -->
+
+        <section class="stats">
+
+            <div class="stat-card">
+                <h3>Total Complaints</h3>
+                <p id="totalComplaints">0</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>High Priority</h3>
+                <p id="highComplaints">0</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Pending</h3>
+                <p id="pendingComplaints">0</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Resolved</h3>
+                <p id="resolvedComplaints">0</p>
+            </div>
+
+        </section>
+
+
+        <!-- FILTERS -->
+
+        <section class="filter-box">
+
+            <h2>🔎 Search & Filter Complaints</h2>
+
+            <div class="filters">
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search ID, issue or location..."
+                    onkeyup="filterComplaints()"
+                >
+
+                <select id="categoryFilter" onchange="filterComplaints()">
+
+                    <option value="">
+                        All Categories
+                    </option>
+
+                    <option value="Water">
+                        Water
+                    </option>
+
+                    <option value="Drainage">
+                        Drainage
+                    </option>
+
+                    <option value="Road">
+                        Road
+                    </option>
+
+                    <option value="Garbage">
+                        Garbage
+                    </option>
+
+                    <option value="Streetlight">
+                        Streetlight
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
+                </select>
+
+
+                <select id="priorityFilter" onchange="filterComplaints()">
+
+                    <option value="">
+                        All Priorities
+                    </option>
+
+                    <option value="High">
+                        High
+                    </option>
+
+                    <option value="Medium">
+                        Medium
+                    </option>
+
+                    <option value="Low">
+                        Low
+                    </option>
+
+                </select>
+
+
+                <select id="statusFilter" onchange="filterComplaints()">
+
+                    <option value="">
+                        All Status
+                    </option>
+
+                    <option value="Submitted">
+                        Submitted
+                    </option>
+
+                    <option value="In Progress">
+                        In Progress
+                    </option>
+
+                    <option value="Resolved">
+                        Resolved
+                    </option>
+
+                </select>
+
+
+                <button
+                    class="reset-btn"
+                    onclick="resetFilters()"
+                >
+                    Reset
+                </button>
+
+            </div>
+
+            <p class="complaint-count">
+                Showing
+                <strong id="visibleCount">0</strong>
+                complaints
+            </p>
+
+        </section>
+
+
+        <!-- COMPLAINT TABLE -->
+
+        <section class="table-box">
+
+            <h2 style="color:#4c1d95; margin-bottom:18px;">
+                📋 Citizen Complaints
+            </h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+                        <th>Issue</th>
+                        <th>Category</th>
+                        <th>Location</th>
+                        <th>Department</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="complaintTable">
+
+                    <tr>
+
+                        <td colspan="8" class="empty-message">
+                            Loading complaints...
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+    </main>
+
+
+    <!-- VIEW DETAILS MODAL -->
+
+    <div
+        id="complaintModal"
+        class="modal"
+        onclick="closeModalOutside(event)"
+    >
+
+        <div class="modal-content">
+
+            <span
+                class="close-btn"
+                onclick="closeComplaintModal()"
+            >
+                &times;
+            </span>
+
+            <h2>📋 Complaint Details</h2>
+
+            <div class="detail-item">
+                <strong>Complaint ID</strong>
+                <span id="detailId"></span>
+            </div>
+
+            <div class="detail-item">
+                <strong>Issue</strong>
+                <span id="detailIssue"></span>
+            </div>
+
+            <div class="detail-item">
+                <strong>Category</strong>
+                <span id="detailCategory"></span>
+            </div>
+
+            <div class="detail-item">
+                <strong>Location</strong>
+                <span id="detailLocation"></span>
+            </div>
+
+            <div class="detail-item">
+                <strong>Department</strong>
+                <span id="detailDepartment"></span>
+            </div>
+
+            <div class="detail-item">
+                <strong>Priority</strong>
+                <span id="detailPriority"></span>
+            </div>
+
+            <div class="detail-item">
+                <strong>Status</strong>
+                <span id="detailStatus"></span>
+            </div>
+
+            <div class="detail-item">
+
+                <strong>Description</strong>
+
+                <div
+                    id="detailDescription"
+                    class="detail-description"
+                ></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- AI SUMMARY MODAL -->
+
+    <div
+        id="aiSummaryModal"
+        class="modal"
+        onclick="closeAISummaryOutside(event)"
+    >
+
+        <div class="modal-content">
+
+            <span
+                class="close-btn"
+                onclick="closeAISummary()"
+            >
+                &times;
+            </span>
+
+            <h2>🤖 AI Complaint Summary</h2>
+
+            <div class="detail-item">
+
+                <strong>Complaint ID</strong>
+
+                <span id="aiComplaintId">
+                    -
+                </span>
+
+            </div>
+
+            <div class="ai-summary-box">
+
+                <div class="ai-summary-title">
+                    🤖 CIVICFIX AI Analysis
+                </div>
+
+                <div id="aiSummaryText">
+                    <span class="loading-summary">
+                        Generating AI summary...
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            © 2026 CIVICFIX AI |
+            Smart Civic Complaint Management
+        </p>
+
+    </footer>
+
+
+    <script>
+
+        let allComplaints = [];
+
+
+        /* LOAD COMPLAINTS */
+
+        function loadComplaints() {
+
+            fetch("get_complaints.php")
+
+                .then(response => response.json())
+
+                .then(data => {
+
+                    allComplaints = data;
+
+                    displayComplaints(allComplaints);
+
+                    updateStatistics(allComplaints);
+
+                })
+
+                .catch(error => {
+
+                    console.error(error);
+
+                    document.getElementById(
+                        "complaintTable"
+                    ).innerHTML = `
+
+                        <tr>
+
+                            <td
+                                colspan="8"
+                                class="empty-message"
+                            >
+
+                                ❌ Unable to load complaints.
+
+                            </td>
+
+                        </tr>
+
+                    `;
+
+                });
+
+        }
+
+
+        /* DISPLAY COMPLAINTS */
+
+        function displayComplaints(complaints) {
+
+            const table =
+                document.getElementById("complaintTable");
+
+            table.innerHTML = "";
+
+
+            if (complaints.length === 0) {
+
+                table.innerHTML = `
+
+                    <tr>
+
+                        <td
+                            colspan="8"
+                            class="empty-message"
+                        >
+
+                            No complaints found.
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+                document.getElementById(
+                    "visibleCount"
+                ).textContent = 0;
+
+                return;
+
+            }
+
+
+            complaints.forEach(complaint => {
+
+                const priority =
+                    complaint.priority || "Medium";
+
+                const priorityClass =
+                    "priority-" +
+                    priority.toLowerCase();
+
+
+                const row =
+                    document.createElement("tr");
+
+
+                row.innerHTML = `
+
+                    <td>
+
+                        <strong>
+                            ${escapeHTML(
+                                complaint.complaint_id
+                            )}
+                        </strong>
+
+                    </td>
+
+
+                    <td>
+                        ${escapeHTML(
+                            complaint.issue_title
+                        )}
+                    </td>
+
+
+                    <td>
+                        ${escapeHTML(
+                            complaint.category
+                        )}
+                    </td>
+
+
+                    <td>
+                        ${escapeHTML(
+                            complaint.location
+                        )}
+                    </td>
+
+
+                    <td>
+                        ${escapeHTML(
+                            complaint.department
+                        )}
+                    </td>
+
+
+                    <td>
+
+                        <span class="${priorityClass}">
+
+                            ${escapeHTML(priority)}
+
+                        </span>
+
+                    </td>
+
+
+                    <td>
+
+                        <select
+                            class="status-select"
+                            id="status-${escapeHTML(
+                                complaint.complaint_id
+                            )}"
+                        >
+
+                            <option
+                                value="Submitted"
+                                ${
+                                    complaint.status === "Submitted"
+                                    ? "selected"
+                                    : ""
+                                }
+                            >
+                                Submitted
+                            </option>
+
+
+                            <option
+                                value="In Progress"
+                                ${
+                                    complaint.status === "In Progress"
+                                    ? "selected"
+                                    : ""
+                                }
+                            >
+                                In Progress
+                            </option>
+
+
+                            <option
+                                value="Resolved"
+                                ${
+                                    complaint.status === "Resolved"
+                                    ? "selected"
+                                    : ""
+                                }
+                            >
+                                Resolved
+                            </option>
+
+                        </select>
+
+                    </td>
+
+
+                    <td>
+
+                        <button
+                            class="view-btn"
+                            onclick="viewComplaintById('${escapeJS(
+                                complaint.complaint_id
+                            )}')"
+                        >
+                            👁️ View
+                        </button>
+
+
+                        <button
+                            class="update-btn"
+                            onclick="updateStatus('${escapeJS(
+                                complaint.complaint_id
+                            )}')"
+                        >
+                            Update
+                        </button>
+
+
+                        <button
+                            class="ai-btn"
+                            onclick="generateAISummaryById('${escapeJS(
+                                complaint.complaint_id
+                            )}')"
+                        >
+                            🤖 AI Summary
+                        </button>
+
+                    </td>
+
+                `;
+
+
+                table.appendChild(row);
+
+            });
+
+
+            document.getElementById(
+                "visibleCount"
+            ).textContent = complaints.length;
+
+        }
+
+
+        /* FIND COMPLAINT */
+
+        function findComplaint(complaintId) {
+
+            return allComplaints.find(
+                complaint =>
+                    complaint.complaint_id === complaintId
+            );
+
+        }
+
+
+        /* VIEW COMPLAINT */
+
+        function viewComplaintById(complaintId) {
+
+            const complaint =
+                findComplaint(complaintId);
+
+            if (!complaint) {
+
+                alert("Complaint not found.");
+
+                return;
+
+            }
+
+
+            document.getElementById("detailId").textContent =
+                complaint.complaint_id || "N/A";
+
+            document.getElementById("detailIssue").textContent =
+                complaint.issue_title || "N/A";
+
+            document.getElementById("detailCategory").textContent =
+                complaint.category || "N/A";
+
+            document.getElementById("detailLocation").textContent =
+                complaint.location || "N/A";
+
+            document.getElementById("detailDepartment").textContent =
+                complaint.department || "N/A";
+
+            document.getElementById("detailPriority").textContent =
+                complaint.priority || "N/A";
+
+            document.getElementById("detailStatus").textContent =
+                complaint.status || "N/A";
+
+            document.getElementById("detailDescription").textContent =
+                complaint.description ||
+                "No description provided.";
+
+
+            document.getElementById(
+                "complaintModal"
+            ).style.display = "flex";
+
+        }
+
+
+        /* CLOSE VIEW MODAL */
+
+        function closeComplaintModal() {
+
+            document.getElementById(
+                "complaintModal"
+            ).style.display = "none";
+
+        }
+
+
+        function closeModalOutside(event) {
+
+            if (
+                event.target ===
+                document.getElementById(
+                    "complaintModal"
+                )
+            ) {
+
+                closeComplaintModal();
+
+            }
+
+        }
+
+
+        /* AI SUMMARY */
+
+        function generateAISummaryById(complaintId) {
+
+            const complaint =
+                findComplaint(complaintId);
+
+
+            if (!complaint) {
+
+                alert("Complaint not found.");
+
+                return;
+
+            }
+
+
+            document.getElementById(
+                "aiSummaryModal"
+            ).style.display = "flex";
+
+
+            document.getElementById(
+                "aiComplaintId"
+            ).textContent =
+                complaint.complaint_id;
+
+
+            document.getElementById(
+                "aiSummaryText"
+            ).innerHTML = `
+
+                <span class="loading-summary">
+                    🤖 Generating AI summary...
+                </span>
+
+            `;
+
+
+            const formData =
+                new FormData();
+
+
+            formData.append(
+                "issue",
+                complaint.issue_title || ""
+            );
+
+            formData.append(
+                "category",
+                complaint.category || ""
+            );
+
+            formData.append(
+                "location",
+                complaint.location || ""
+            );
+
+            formData.append(
+                "description",
+                complaint.description || ""
+            );
+
+            formData.append(
+                "department",
+                complaint.department || ""
+            );
+
+            formData.append(
+                "priority",
+                complaint.priority || ""
+            );
+
+            formData.append(
+                "status",
+                complaint.status || ""
+            );
+
+
+            fetch("ai_summary.php", {
+
+                method: "POST",
+
+                body: formData
+
+            })
+
+            .then(response => response.json())
+
+            .then(data => {
+
+                if (data.success) {
+
+                    document.getElementById(
+                        "aiSummaryText"
+                    ).textContent =
+                        data.summary;
+
+                } else {
+
+                    document.getElementById(
+                        "aiSummaryText"
+                    ).textContent =
+                        "❌ " +
+                        (
+                            data.message ||
+                            "Unable to generate AI summary."
+                        );
+
+                }
+
+            })
+
+            .catch(error => {
+
+                console.error(error);
+
+                document.getElementById(
+                    "aiSummaryText"
+                ).textContent =
+                    "❌ Error connecting to AI service.";
+
+            });
+
+        }
+
+
+        /* CLOSE AI SUMMARY */
+
+        function closeAISummary() {
+
+            document.getElementById(
+                "aiSummaryModal"
+            ).style.display = "none";
+
+        }
+
+
+        function closeAISummaryOutside(event) {
+
+            if (
+                event.target ===
+                document.getElementById(
+                    "aiSummaryModal"
+                )
+            ) {
+
+                closeAISummary();
+
+            }
+
+        }
+
+
+        /* UPDATE STATUS */
+
+        function updateStatus(complaintId) {
+
+            const select =
+                document.getElementById(
+                    "status-" + complaintId
+                );
+
+
+            if (!select) {
+
+                alert("Status selector not found.");
+
+                return;
+
+            }
+
+
+            const newStatus =
+                select.value;
+
+
+            const formData =
+                new FormData();
+
+
+            formData.append(
+                "complaint_id",
+                complaintId
+            );
+
+
+            formData.append(
+                "status",
+                newStatus
+            );
+
+
+            fetch("update_status.php", {
+
+                method: "POST",
+
+                body: formData
+
+            })
+
+            .then(response => response.text())
+
+            .then(result => {
+
+                alert(result);
+
+                loadComplaints();
+
+            })
+
+            .catch(error => {
+
+                console.error(error);
+
+                alert(
+                    "❌ Error updating complaint status."
+                );
+
+            });
+
+        }
+
+
+        /* FILTER */
+
+        function filterComplaints() {
+
+            const search =
+                document.getElementById(
+                    "searchInput"
+                ).value.toLowerCase();
+
+
+            const category =
+                document.getElementById(
+                    "categoryFilter"
+                ).value;
+
+
+            const priority =
+                document.getElementById(
+                    "priorityFilter"
+                ).value;
+
+
+            const status =
+                document.getElementById(
+                    "statusFilter"
+                ).value;
+
+
+            const filtered =
+                allComplaints.filter(
+                    complaint => {
+
+                        const searchMatch =
+
+                            (
+                                complaint.complaint_id ||
+                                ""
+                            )
+                            .toLowerCase()
+                            .includes(search)
+
+                            ||
+
+                            (
+                                complaint.issue_title ||
+                                ""
+                            )
+                            .toLowerCase()
+                            .includes(search)
+
+                            ||
+
+                            (
+                                complaint.location ||
+                                ""
+                            )
+                            .toLowerCase()
+                            .includes(search);
+
+
+                        const categoryMatch =
+                            category === "" ||
+                            complaint.category === category;
+
+
+                        const priorityMatch =
+                            priority === "" ||
+                            complaint.priority === priority;
+
+
+                        const statusMatch =
+                            status === "" ||
+                            complaint.status === status;
+
+
+                        return (
+                            searchMatch &&
+                            categoryMatch &&
+                            priorityMatch &&
+                            statusMatch
+                        );
+
+                    }
+                );
+
+
+            displayComplaints(filtered);
+
+        }
+
+
+        /* RESET FILTERS */
+
+        function resetFilters() {
+
+            document.getElementById(
+                "searchInput"
+            ).value = "";
+
+
+            document.getElementById(
+                "categoryFilter"
+            ).value = "";
+
+
+            document.getElementById(
+                "priorityFilter"
+            ).value = "";
+
+
+            document.getElementById(
+                "statusFilter"
+            ).value = "";
+
+
+            displayComplaints(
+                allComplaints
+            );
+
+        }
+
+
+        /* STATISTICS */
+
+        function updateStatistics(complaints) {
+
+            const total =
+                complaints.length;
+
+
+            const high =
+                complaints.filter(
+                    c => c.priority === "High"
+                ).length;
+
+
+            const pending =
+                complaints.filter(
+                    c => c.status !== "Resolved"
+                ).length;
+
+
+            const resolved =
+                complaints.filter(
+                    c => c.status === "Resolved"
+                ).length;
+
+
+            document.getElementById(
+                "totalComplaints"
+            ).textContent = total;
+
+
+            document.getElementById(
+                "highComplaints"
+            ).textContent = high;
+
+
+            document.getElementById(
+                "pendingComplaints"
+            ).textContent = pending;
+
+
+            document.getElementById(
+                "resolvedComplaints"
+            ).textContent = resolved;
+
+        }
+
+
+        /* SECURITY HELPERS */
+
+        function escapeHTML(value) {
+
+            return String(value ?? "")
+
+                .replace(/&/g, "&amp;")
+
+                .replace(/</g, "&lt;")
+
+                .replace(/>/g, "&gt;")
+
+                .replace(/"/g, "&quot;")
+
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        function escapeJS(value) {
+
+            return String(value ?? "")
+
+                .replace(/\\/g, "\\\\")
+
+                .replace(/'/g, "\\'")
+
+                .replace(/"/g, '\\"');
+
+        }
+
+
+        /* START */
+
+        loadComplaints();
+
+    </script>
+
+</body>
+
+</html>

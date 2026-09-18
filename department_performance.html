@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Department Performance | CIVICFIX AI</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #222;
+        }
+
+        header {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin-bottom: 8px;
+        }
+
+        header p {
+            opacity: 0.9;
+        }
+
+        .top-buttons {
+            margin-top: 18px;
+        }
+
+        .top-buttons a {
+            display: inline-block;
+            text-decoration: none;
+            background: white;
+            color: #2575fc;
+            padding: 10px 18px;
+            border-radius: 8px;
+            margin: 5px;
+            font-weight: bold;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1200px;
+            margin: 30px auto;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 22px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+        }
+
+        .summary-card h3 {
+            color: #666;
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+
+        .summary-card .number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #2575fc;
+        }
+
+        .table-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+            overflow-x: auto;
+        }
+
+        .table-card h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 750px;
+        }
+
+        th {
+            background: #2575fc;
+            color: white;
+            padding: 14px;
+            text-align: center;
+        }
+
+        td {
+            padding: 14px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:hover {
+            background: #f5f8ff;
+        }
+
+        .department {
+            font-weight: bold;
+            text-align: left;
+        }
+
+        .total {
+            font-weight: bold;
+            color: #2575fc;
+        }
+
+        .resolved {
+            color: #16a34a;
+            font-weight: bold;
+        }
+
+        .pending {
+            color: #d97706;
+            font-weight: bold;
+        }
+
+        .high {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .status-message {
+            text-align: center;
+            padding: 20px;
+            font-weight: bold;
+        }
+
+        footer {
+            margin-top: 40px;
+            background: #111827;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        @media (max-width: 800px) {
+
+            .summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 500px) {
+
+            .summary {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 24px;
+            }
+
+            .container {
+                width: 95%;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <h1>📊 Department Performance</h1>
+
+    <p>
+        CIVICFIX AI — Smart Civic Complaint Monitoring
+    </p>
+
+    <div class="top-buttons">
+
+        <a href="admin.html">👨‍💼 Authority Dashboard</a>
+
+        <a href="analytics.html">📈 Analytics</a>
+
+        <a href="index.html">🏠 Home</a>
+
+    </div>
+
+</header>
+
+
+<div class="container">
+
+    <!-- SUMMARY CARDS -->
+
+    <div class="summary">
+
+        <div class="summary-card">
+
+            <h3>Total Complaints</h3>
+
+            <div class="number" id="totalComplaints">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <h3>Total Departments</h3>
+
+            <div class="number" id="totalDepartments">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <h3>Resolved Complaints</h3>
+
+            <div class="number" id="totalResolved">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <h3>High Priority</h3>
+
+            <div class="number" id="totalHigh">
+                0
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PERFORMANCE TABLE -->
+
+    <div class="table-card">
+
+        <h2>🏢 Department-wise Performance</h2>
+
+        <div id="statusMessage" class="status-message">
+            Loading department data...
+        </div>
+
+        <table id="departmentTable" style="display:none;">
+
+            <thead>
+
+                <tr>
+
+                    <th>Department</th>
+
+                    <th>Total Complaints</th>
+
+                    <th>Resolved</th>
+
+                    <th>Pending</th>
+
+                    <th>High Priority</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="departmentBody">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<footer>
+
+    <p>
+        © 2026 CIVICFIX AI | CivicNova
+    </p>
+
+</footer>
+
+
+<script>
+
+async function loadDepartmentPerformance() {
+
+    const statusMessage =
+        document.getElementById("statusMessage");
+
+    const table =
+        document.getElementById("departmentTable");
+
+    const body =
+        document.getElementById("departmentBody");
+
+    try {
+
+        const response =
+            await fetch("department_performance.php");
+
+        const data =
+            await response.json();
+
+        if (!data.success) {
+
+            statusMessage.textContent =
+                "Unable to load department data.";
+
+            return;
+        }
+
+        const departments =
+            data.departments || [];
+
+        body.innerHTML = "";
+
+        let totalComplaints = 0;
+        let totalResolved = 0;
+        let totalHigh = 0;
+
+        departments.forEach(function(department) {
+
+            totalComplaints +=
+                department.total;
+
+            totalResolved +=
+                department.resolved;
+
+            totalHigh +=
+                department.high_priority;
+
+
+            const row =
+                document.createElement("tr");
+
+            row.innerHTML = `
+
+                <td class="department">
+                    ${escapeHTML(department.department)}
+                </td>
+
+                <td class="total">
+                    ${department.total}
+                </td>
+
+                <td class="resolved">
+                    ${department.resolved}
+                </td>
+
+                <td class="pending">
+                    ${department.pending}
+                </td>
+
+                <td class="high">
+                    ${department.high_priority}
+                </td>
+
+            `;
+
+            body.appendChild(row);
+
+        });
+
+
+        document.getElementById("totalComplaints")
+            .textContent = totalComplaints;
+
+        document.getElementById("totalDepartments")
+            .textContent = departments.length;
+
+        document.getElementById("totalResolved")
+            .textContent = totalResolved;
+
+        document.getElementById("totalHigh")
+            .textContent = totalHigh;
+
+
+        statusMessage.style.display = "none";
+
+        table.style.display = "table";
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        statusMessage.textContent =
+            "Error connecting to the server.";
+
+    }
+
+}
+
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+loadDepartmentPerformance();
+
+</script>
+
+</body>
+</html>

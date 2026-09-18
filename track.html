@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CIVICFIX AI | Track Complaint</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f7f5ff;
+            color: #24123f;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .track-header {
+            background: linear-gradient(
+                135deg,
+                #3b176d,
+                #641bb5,
+                #00bcd4
+            );
+
+            color: white;
+            padding: 18px 7%;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .track-logo {
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .track-logo span {
+            color: #65f4ff;
+        }
+
+        .back-home {
+            color: white;
+            text-decoration: none;
+
+            border: 1px solid rgba(255,255,255,0.4);
+
+            padding: 9px 18px;
+
+            border-radius: 25px;
+
+            transition: 0.3s;
+        }
+
+        .back-home:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .track-hero {
+            text-align: center;
+
+            padding: 65px 20px 40px;
+
+            background:
+                radial-gradient(
+                    circle at top right,
+                    rgba(0,188,212,0.15),
+                    transparent 35%
+                ),
+                #f7f5ff;
+        }
+
+        .ai-icon {
+            width: 70px;
+            height: 70px;
+
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: linear-gradient(
+                135deg,
+                #6c2bd9,
+                #00bcd4
+            );
+
+            color: white;
+
+            font-size: 32px;
+
+            box-shadow:
+                0 12px 30px rgba(86,40,180,0.25);
+        }
+
+        .track-hero h1 {
+            font-size: 40px;
+            margin: 20px 0 10px;
+        }
+
+        .track-hero h1 span {
+            color: #6c2bd9;
+        }
+
+        .track-hero p {
+            color: #6d6380;
+            font-size: 17px;
+        }
+
+
+        /* =========================
+           SEARCH
+        ========================= */
+
+        .track-search {
+            width: min(650px, 90%);
+
+            margin: 20px auto 50px;
+
+            background: white;
+
+            padding: 10px;
+
+            border-radius: 18px;
+
+            display: flex;
+
+            gap: 10px;
+
+            box-shadow:
+                0 15px 45px rgba(60,30,110,0.12);
+
+            border: 1px solid #e5def5;
+        }
+
+        .track-search input {
+            flex: 1;
+
+            border: none;
+            outline: none;
+
+            padding: 15px;
+
+            font-size: 16px;
+
+            border-radius: 12px;
+        }
+
+        .track-search button {
+            border: none;
+
+            padding: 0 25px;
+
+            border-radius: 13px;
+
+            color: white;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            background: linear-gradient(
+                135deg,
+                #6c2bd9,
+                #00a9c2
+            );
+
+            transition: 0.3s;
+        }
+
+        .track-search button:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 20px rgba(91,43,180,0.25);
+        }
+
+
+        /* =========================
+           RESULT
+        ========================= */
+
+        #trackingResult {
+            width: min(950px, 90%);
+            margin: auto;
+        }
+
+        .tracking-card {
+            background: white;
+
+            border-radius: 25px;
+
+            padding: 35px;
+
+            box-shadow:
+                0 20px 60px rgba(50,25,90,0.12);
+
+            border: 1px solid #e7def6;
+
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+
+        /* =========================
+           TOP
+        ========================= */
+
+        .tracking-top {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding-bottom: 25px;
+
+            border-bottom:
+                1px solid #eee7f7;
+        }
+
+        .tracking-top small {
+            color: #827794;
+        }
+
+        .tracking-id {
+            font-size: 20px;
+
+            font-weight: 800;
+
+            color: #5d21a8;
+        }
+
+        .status-badge {
+            padding: 9px 17px;
+
+            border-radius: 30px;
+
+            background: #fff3d8;
+
+            color: #a86600;
+
+            font-size: 13px;
+
+            font-weight: 700;
+        }
+
+
+        /* =========================
+           PROGRESS
+        ========================= */
+
+        .progress-title {
+            margin-top: 30px;
+            margin-bottom: 25px;
+        }
+
+        .progress-title h2 {
+            margin-bottom: 5px;
+        }
+
+        .progress-title p {
+            color: #777080;
+        }
+
+        .timeline {
+            display: flex;
+
+            justify-content: space-between;
+
+            position: relative;
+
+            margin: 40px 10px;
+        }
+
+        .timeline::before {
+            content: "";
+
+            position: absolute;
+
+            top: 18px;
+
+            left: 5%;
+            right: 5%;
+
+            height: 4px;
+
+            background: #e4dff0;
+
+            z-index: 0;
+        }
+
+        .timeline-step {
+            position: relative;
+
+            z-index: 1;
+
+            text-align: center;
+
+            width: 25%;
+        }
+
+        .timeline-dot {
+            width: 38px;
+            height: 38px;
+
+            margin: auto;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background: white;
+
+            border: 4px solid #ddd5eb;
+
+            font-size: 17px;
+        }
+
+        .timeline-step.active .timeline-dot {
+            border-color: #6c2bd9;
+
+            background: #6c2bd9;
+
+            color: white;
+
+            box-shadow:
+                0 0 0 7px rgba(108,43,217,0.12);
+        }
+
+        .timeline-step.completed .timeline-dot {
+            border-color: #00a9c2;
+
+            background: #00a9c2;
+
+            color: white;
+        }
+
+        .timeline-step strong {
+            display: block;
+
+            margin-top: 12px;
+
+            font-size: 14px;
+        }
+
+        .timeline-step small {
+            color: #81778f;
+        }
+
+
+        /* =========================
+           DETAILS
+        ========================= */
+
+        .details-title {
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+
+        .details-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 15px;
+        }
+
+        .detail-box {
+            padding: 18px;
+
+            border-radius: 15px;
+
+            background: #faf8ff;
+
+            border: 1px solid #ece5f7;
+        }
+
+        .detail-box span {
+            display: block;
+
+            font-size: 12px;
+
+            color: #8a8096;
+
+            margin-bottom: 6px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.5px;
+        }
+
+        .detail-box strong {
+            font-size: 15px;
+        }
+
+
+        /* =========================
+           CITIZEN NOTIFICATION
+        ========================= */
+
+        .citizen-notification {
+            margin-top: 25px;
+
+            padding: 20px;
+
+            border-radius: 17px;
+
+            display: flex;
+
+            gap: 15px;
+
+            align-items: flex-start;
+
+            background: linear-gradient(
+                135deg,
+                #fff8e1,
+                #f3e8ff
+            );
+
+            border: 1px solid #e3d5f5;
+
+            box-shadow:
+                0 8px 25px rgba(80,40,120,0.08);
+        }
+
+        .notification-icon {
+            font-size: 28px;
+
+            flex-shrink: 0;
+        }
+
+        .citizen-notification strong {
+            color: #5c21a5;
+
+            font-size: 16px;
+        }
+
+        .citizen-notification p {
+            margin: 7px 0 0;
+
+            color: #665d73;
+
+            line-height: 1.5;
+        }
+
+
+        /* =========================
+           AI UPDATE
+        ========================= */
+
+        .ai-update {
+            margin-top: 25px;
+
+            display: flex;
+
+            gap: 15px;
+
+            padding: 20px;
+
+            border-radius: 17px;
+
+            background: linear-gradient(
+                135deg,
+                #f2eaff,
+                #e9fbff
+            );
+
+            border: 1px solid #ddd2f5;
+        }
+
+        .ai-update-icon {
+            font-size: 28px;
+        }
+
+        .ai-update strong {
+            color: #5c21a5;
+        }
+
+        .ai-update p {
+            margin-bottom: 0;
+
+            color: #665d73;
+
+            line-height: 1.5;
+        }
+
+
+        /* =========================
+           ERROR
+        ========================= */
+
+        .error-card {
+            background: white;
+
+            padding: 35px;
+
+            text-align: center;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 15px 40px rgba(50,25,90,0.1);
+        }
+
+        .error-card h2 {
+            color: #d32f2f;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            .track-header {
+                padding: 15px 5%;
+            }
+
+            .track-hero h1 {
+                font-size: 30px;
+            }
+
+            .track-search {
+                flex-direction: column;
+
+                padding: 12px;
+            }
+
+            .track-search button {
+                padding: 14px;
+            }
+
+            .tracking-card {
+                padding: 22px;
+            }
+
+            .tracking-top {
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 15px;
+            }
+
+            .timeline {
+                flex-direction: column;
+
+                gap: 25px;
+            }
+
+            .timeline::before {
+                left: 18px;
+
+                top: 18px;
+
+                bottom: 18px;
+
+                width: 4px;
+
+                height: auto;
+            }
+
+            .timeline-step {
+                width: 100%;
+
+                display: flex;
+
+                align-items: center;
+
+                text-align: left;
+
+                gap: 15px;
+            }
+
+            .timeline-step .timeline-dot {
+                margin: 0;
+
+                flex-shrink: 0;
+            }
+
+            .timeline-step strong {
+                margin: 0;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <header class="track-header">
+
+        <div class="track-logo">
+            CIVICFIX <span>AI</span>
+        </div>
+
+        <a href="index.html"
+           class="back-home">
+
+            ← Home
+
+        </a>
+
+    </header>
+
+
+    <!-- HERO -->
+
+    <section class="track-hero">
+
+        <div class="ai-icon">
+            🤖
+        </div>
+
+        <h1>
+            Track Your <span>Complaint</span>
+        </h1>
+
+        <p>
+            Stay informed about the progress of your civic complaint
+            in real time.
+        </p>
+
+
+        <!-- SEARCH -->
+
+        <div class="track-search">
+
+            <input
+                type="text"
+                id="complaintId"
+                placeholder="Enter Complaint ID e.g. CIVIC-2632"
+            >
+
+            <button onclick="trackComplaint()">
+                🔍 Track Complaint
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- RESULT -->
+
+    <section id="trackingResult"></section>
+
+
+    <script>
+
+        async function trackComplaint() {
+
+            const complaintId =
+                document
+                .getElementById("complaintId")
+                .value
+                .trim();
+
+            const result =
+                document
+                .getElementById("trackingResult");
+
+
+            if (!complaintId) {
+
+                result.innerHTML = `
+
+                    <div class="error-card">
+
+                        <h2>
+                            ⚠ Complaint ID Required
+                        </h2>
+
+                        <p>
+                            Please enter your complaint ID
+                            to track your complaint.
+                        </p>
+
+                    </div>
+
+                `;
+
+                return;
+            }
+
+
+            result.innerHTML = `
+
+                <div class="tracking-card">
+
+                    <h2>
+                        🔄 Searching Complaint...
+                    </h2>
+
+                    <p>
+                        Connecting to CIVICFIX AI database.
+                    </p>
+
+                </div>
+
+            `;
+
+
+            try {
+
+                /* GET ALL COMPLAINTS */
+
+                const response =
+                    await fetch("get_complaints.php");
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Unable to connect to server."
+                    );
+
+                }
+
+                const complaints =
+                    await response.json();
+
+
+                /* FIND COMPLAINT */
+
+                const complaint =
+                    complaints.find(
+                        item =>
+                        item.complaint_id
+                        .toLowerCase() ===
+                        complaintId.toLowerCase()
+                    );
+
+
+                if (!complaint) {
+
+                    result.innerHTML = `
+
+                        <div class="error-card">
+
+                            <h2>
+                                ❌ Complaint Not Found
+                            </h2>
+
+                            <p>
+                                We could not find
+                                <strong>
+                                    ${complaintId}
+                                </strong>.
+                            </p>
+
+                            <p>
+                                Please check your Complaint ID
+                                and try again.
+                            </p>
+
+                        </div>
+
+                    `;
+
+                    return;
+                }
+
+
+                /* =========================
+                   STATUS
+                ========================= */
+
+                let status =
+                    (complaint.status ||
+                    "Submitted").trim();
+
+
+                if (
+                    status.toLowerCase()
+                    === "submitted"
+                ) {
+
+                    status = "Submitted";
+
+                }
+
+
+                if (
+                    status.toLowerCase()
+                    === "in progress"
+                ) {
+
+                    status = "In Progress";
+
+                }
+
+
+                if (
+                    status.toLowerCase()
+                    === "resolved"
+                ) {
+
+                    status = "Resolved";
+
+                }
+
+
+                /* =========================
+                   TIMELINE
+                ========================= */
+
+                let submittedClass =
+                    "active";
+
+                let progressClass = "";
+
+                let resolvedClass = "";
+
+
+                if (status === "In Progress") {
+
+                    submittedClass =
+                        "completed";
+
+                    progressClass =
+                        "active";
+
+                }
+
+
+                if (status === "Resolved") {
+
+                    submittedClass =
+                        "completed";
+
+                    progressClass =
+                        "completed";
+
+                    resolvedClass =
+                        "active";
+
+                }
+
+
+                /* =========================
+                   AI MESSAGE
+                ========================= */
+
+                let statusMessage =
+                    "Your complaint has been successfully registered and is waiting for processing.";
+
+
+                if (status === "In Progress") {
+
+                    statusMessage =
+                        "Your complaint is currently being reviewed and handled by the responsible department.";
+
+                }
+
+
+                if (status === "Resolved") {
+
+                    statusMessage =
+                        "Your complaint has been marked as resolved by the responsible department.";
+
+                }
+
+
+                /* =========================
+                   SHOW COMPLAINT
+                ========================= */
+
+                result.innerHTML = `
+
+                    <div class="tracking-card">
+
+
+                        <!-- TOP -->
+
+                        <div class="tracking-top">
+
+                            <div>
+
+                                <small>
+                                    COMPLAINT ID
+                                </small>
+
+                                <div class="tracking-id">
+                                    ${complaint.complaint_id}
+                                </div>
+
+                            </div>
+
+                            <span class="status-badge">
+                                ${status}
+                            </span>
+
+                        </div>
+
+
+                        <!-- PROGRESS -->
+
+                        <div class="progress-title">
+
+                            <h2>
+                                Complaint Progress
+                            </h2>
+
+                            <p>
+                                Follow your complaint from submission
+                                to resolution.
+                            </p>
+
+                        </div>
+
+
+                        <div class="timeline">
+
+
+                            <!-- SUBMITTED -->
+
+                            <div class="
+                                timeline-step
+                                ${submittedClass}
+                            ">
+
+                                <div class="timeline-dot">
+                                    ✓
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        Submitted
+                                    </strong>
+
+                                    <small>
+                                        Complaint received
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- IN PROGRESS -->
+
+                            <div class="
+                                timeline-step
+                                ${progressClass}
+                            ">
+
+                                <div class="timeline-dot">
+                                    ⚙
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        In Progress
+                                    </strong>
+
+                                    <small>
+                                        Department handling
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- RESOLVED -->
+
+                            <div class="
+                                timeline-step
+                                ${resolvedClass}
+                            ">
+
+                                <div class="timeline-dot">
+                                    ✓
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        Resolved
+                                    </strong>
+
+                                    <small>
+                                        Issue completed
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <!-- DETAILS -->
+
+                        <h2 class="details-title">
+                            Complaint Details
+                        </h2>
+
+
+                        <div class="details-grid">
+
+
+                            <div class="detail-box">
+
+                                <span>
+                                    Issue
+                                </span>
+
+                                <strong>
+                                    ${complaint.issue_title}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="detail-box">
+
+                                <span>
+                                    Category
+                                </span>
+
+                                <strong>
+                                    ${complaint.category}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="detail-box">
+
+                                <span>
+                                    Location
+                                </span>
+
+                                <strong>
+                                    📍 ${complaint.location}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="detail-box">
+
+                                <span>
+                                    Department
+                                </span>
+
+                                <strong>
+                                    ${complaint.department}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="detail-box">
+
+                                <span>
+                                    Priority
+                                </span>
+
+                                <strong>
+                                    ${complaint.priority}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="detail-box">
+
+                                <span>
+                                    Submitted On
+                                </span>
+
+                                <strong>
+                                    ${complaint.created_at}
+                                </strong>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <!-- CITIZEN NOTIFICATION -->
+
+                        <div
+                            class="citizen-notification"
+                            id="citizenNotification"
+                        >
+
+                            <div class="notification-icon">
+                                🔔
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Citizen Notification
+                                </strong>
+
+                                <p id="notificationMessage">
+                                    Loading notification...
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- AI UPDATE -->
+
+                        <div class="ai-update">
+
+                            <div class="ai-update-icon">
+                                🤖
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    CIVICFIX AI Update
+                                </strong>
+
+                                <p>
+                                    ${statusMessage}
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                `;
+
+
+                /* =========================
+                   GET NOTIFICATION
+                ========================= */
+
+                try {
+
+                    const notificationResponse =
+                        await fetch(
+                            "get_notification.php?complaint_id="
+                            +
+                            encodeURIComponent(
+                                complaint.complaint_id
+                            )
+                        );
+
+
+                    const notification =
+                        await notificationResponse.json();
+
+
+                    if (notification.success) {
+
+                        document.getElementById(
+                            "notificationMessage"
+                        ).textContent =
+                            notification.message;
+
+                    }
+
+                    else {
+
+                        document.getElementById(
+                            "notificationMessage"
+                        ).textContent =
+                            "No notification available.";
+
+                    }
+
+                }
+
+                catch (notificationError) {
+
+                    console.error(
+                        "Notification error:",
+                        notificationError
+                    );
+
+                    document.getElementById(
+                        "notificationMessage"
+                    ).textContent =
+                        "Unable to load notification.";
+
+                }
+
+            }
+
+
+            catch (error) {
+
+                console.error(error);
+
+                result.innerHTML = `
+
+                    <div class="error-card">
+
+                        <h2>
+                            ⚠ Connection Error
+                        </h2>
+
+                        <p>
+                            Unable to connect to the
+                            CIVICFIX AI server.
+                        </p>
+
+                        <p>
+                            Make sure XAMPP Apache and MySQL
+                            are running.
+                        </p>
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+        /* =========================
+           ENTER KEY
+        ========================= */
+
+        document
+        .getElementById("complaintId")
+        .addEventListener(
+            "keypress",
+            function(event) {
+
+                if (event.key === "Enter") {
+
+                    trackComplaint();
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>

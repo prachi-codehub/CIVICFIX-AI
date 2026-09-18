@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CIVICFIX AI | Analytics</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f7f5ff;
+            color: #24123f;
+        }
+
+        /* HEADER */
+
+        .analytics-header {
+            background: linear-gradient(
+                135deg,
+                #3b176d,
+                #641bb5,
+                #00bcd4
+            );
+
+            color: white;
+            padding: 18px 7%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .analytics-logo {
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .analytics-logo span {
+            color: #65f4ff;
+        }
+
+        .home-btn {
+            color: white;
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.4);
+            padding: 9px 18px;
+            border-radius: 25px;
+        }
+
+        /* HERO */
+
+        .analytics-hero {
+            text-align: center;
+            padding: 55px 20px 35px;
+        }
+
+        .analytics-hero h1 {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .analytics-hero h1 span {
+            color: #6c2bd9;
+        }
+
+        .analytics-hero p {
+            color: #746b82;
+            font-size: 17px;
+        }
+
+        /* CONTAINER */
+
+        .analytics-container {
+            width: min(1100px, 90%);
+            margin: auto;
+        }
+
+        /* STAT CARDS */
+
+        .analytics-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .analytics-card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+
+            border: 1px solid #e5def5;
+
+            box-shadow:
+                0 15px 40px rgba(50,25,90,0.08);
+        }
+
+        .analytics-card span {
+            font-size: 28px;
+        }
+
+        .analytics-card h2 {
+            font-size: 30px;
+            margin: 10px 0 3px;
+            color: #5c21a5;
+        }
+
+        .analytics-card p {
+            margin: 0;
+            color: #777080;
+        }
+
+        /* SECTION */
+
+        .analytics-section {
+            background: white;
+            margin-top: 30px;
+            padding: 30px;
+            border-radius: 22px;
+
+            border: 1px solid #e5def5;
+
+            box-shadow:
+                0 15px 40px rgba(50,25,90,0.08);
+        }
+
+        .analytics-section h2 {
+            margin-top: 0;
+        }
+
+        .section-subtitle {
+            color: #81778f;
+        }
+
+        /* CATEGORY BARS */
+
+        .category-row {
+            margin: 20px 0;
+        }
+
+        .category-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 7px;
+        }
+
+        .category-info strong {
+            font-size: 14px;
+        }
+
+        .category-info span {
+            color: #6c2bd9;
+            font-weight: bold;
+        }
+
+        .bar {
+            height: 12px;
+            background: #eeeaf6;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+
+            background: linear-gradient(
+                90deg,
+                #6c2bd9,
+                #00bcd4
+            );
+
+            border-radius: 20px;
+
+            transition: width 0.8s ease;
+        }
+
+        /* STATUS GRID */
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-top: 20px;
+        }
+
+        .status-box {
+            padding: 22px;
+            border-radius: 17px;
+            background: #faf8ff;
+            border: 1px solid #ece5f7;
+            text-align: center;
+        }
+
+        .status-box .number {
+            font-size: 30px;
+            font-weight: 800;
+            color: #5c21a5;
+        }
+
+        .status-box p {
+            color: #777080;
+        }
+
+        /* DEPARTMENT */
+
+        .department-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .department-card {
+            padding: 18px;
+            border-radius: 15px;
+            background: #faf8ff;
+            border: 1px solid #ece5f7;
+        }
+
+        .department-card strong {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .department-card span {
+            color: #6c2bd9;
+            font-weight: bold;
+        }
+
+        /* AI INSIGHT */
+
+        .ai-insight {
+            margin-top: 30px;
+
+            display: flex;
+            gap: 15px;
+
+            padding: 22px;
+
+            border-radius: 18px;
+
+            background: linear-gradient(
+                135deg,
+                #f2eaff,
+                #e9fbff
+            );
+
+            border: 1px solid #ddd2f5;
+        }
+
+        .ai-icon {
+            font-size: 30px;
+        }
+
+        .ai-insight strong {
+            color: #5c21a5;
+        }
+
+        .ai-insight p {
+            color: #665d73;
+            margin-bottom: 0;
+        }
+
+        /* REFRESH */
+
+        .refresh-btn {
+            margin-top: 25px;
+
+            padding: 12px 25px;
+
+            border: none;
+            border-radius: 12px;
+
+            background: linear-gradient(
+                135deg,
+                #6c2bd9,
+                #00a9c2
+            );
+
+            color: white;
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 800px) {
+
+            .analytics-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .status-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .department-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 500px) {
+
+            .analytics-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .analytics-hero h1 {
+                font-size: 30px;
+            }
+
+            .analytics-section {
+                padding: 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header class="analytics-header">
+
+        <div class="analytics-logo">
+            CIVICFIX <span>AI</span>
+        </div>
+
+        <a href="admin.html" class="home-btn">
+            ← Dashboard
+        </a>
+
+    </header>
+
+
+    <!-- HERO -->
+
+    <section class="analytics-hero">
+
+        <h1>
+            Smart <span>Analytics</span>
+        </h1>
+
+        <p>
+            AI-powered insights from citizen complaints
+        </p>
+
+    </section>
+
+
+    <main class="analytics-container">
+
+
+        <!-- STAT CARDS -->
+
+        <section class="analytics-stats">
+
+            <div class="analytics-card">
+
+                <span>📋</span>
+
+                <h2 id="total">
+                    0
+                </h2>
+
+                <p>
+                    Total Complaints
+                </p>
+
+            </div>
+
+
+            <div class="analytics-card">
+
+                <span>🔴</span>
+
+                <h2 id="high">
+                    0
+                </h2>
+
+                <p>
+                    High Priority
+                </p>
+
+            </div>
+
+
+            <div class="analytics-card">
+
+                <span>⏳</span>
+
+                <h2 id="pending">
+                    0
+                </h2>
+
+                <p>
+                    Pending
+                </p>
+
+            </div>
+
+
+            <div class="analytics-card">
+
+                <span>✅</span>
+
+                <h2 id="resolved">
+                    0
+                </h2>
+
+                <p>
+                    Resolved
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- CATEGORY ANALYSIS -->
+
+        <section class="analytics-section">
+
+            <h2>
+                📊 Complaints by Category
+            </h2>
+
+            <p class="section-subtitle">
+                Distribution of reported civic issues
+            </p>
+
+            <div id="categoryData">
+
+                Loading...
+
+            </div>
+
+        </section>
+
+
+        <!-- STATUS -->
+
+        <section class="analytics-section">
+
+            <h2>
+                🔄 Complaint Status
+            </h2>
+
+            <p class="section-subtitle">
+                Current resolution progress
+            </p>
+
+
+            <div class="status-grid">
+
+                <div class="status-box">
+
+                    <div
+                        class="number"
+                        id="submitted">
+                        0
+                    </div>
+
+                    <p>
+                        Submitted
+                    </p>
+
+                </div>
+
+
+                <div class="status-box">
+
+                    <div
+                        class="number"
+                        id="inProgress">
+                        0
+                    </div>
+
+                    <p>
+                        In Progress
+                    </p>
+
+                </div>
+
+
+                <div class="status-box">
+
+                    <div
+                        class="number"
+                        id="resolved2">
+                        0
+                    </div>
+
+                    <p>
+                        Resolved
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- DEPARTMENT -->
+
+        <section class="analytics-section">
+
+            <h2>
+                🏢 Complaints by Department
+            </h2>
+
+            <p class="section-subtitle">
+                Workload across civic departments
+            </p>
+
+            <div
+                id="departmentData"
+                class="department-grid">
+
+                Loading...
+
+            </div>
+
+        </section>
+
+
+        <!-- AI INSIGHT -->
+
+        <section class="ai-insight">
+
+            <div class="ai-icon">
+                🤖
+            </div>
+
+            <div>
+
+                <strong>
+                    CIVICFIX AI Insight
+                </strong>
+
+                <p id="aiInsight">
+                    Analyzing complaint data...
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <button
+            class="refresh-btn"
+            onclick="loadAnalytics()">
+
+            🔄 Refresh Analytics
+
+        </button>
+
+
+    </main>
+
+
+    <script>
+
+        async function loadAnalytics() {
+
+            try {
+
+                const response =
+                    await fetch("get_complaints.php");
+
+                const complaints =
+                    await response.json();
+
+
+                /* COUNTERS */
+
+                let high = 0;
+                let pending = 0;
+                let resolved = 0;
+
+                let submitted = 0;
+                let inProgress = 0;
+
+
+                complaints.forEach(function(c) {
+
+                    if (c.priority === "High") {
+                        high++;
+                    }
+
+                    if (
+                        c.status === "Submitted" ||
+                        c.status === "Pending" ||
+                        c.status === "In Progress"
+                    ) {
+                        pending++;
+                    }
+
+                    if (c.status === "Resolved") {
+                        resolved++;
+                    }
+
+
+                    if (c.status === "Submitted") {
+                        submitted++;
+                    }
+
+                    if (c.status === "In Progress") {
+                        inProgress++;
+                    }
+
+                });
+
+
+                document.getElementById("total")
+                    .textContent = complaints.length;
+
+                document.getElementById("high")
+                    .textContent = high;
+
+                document.getElementById("pending")
+                    .textContent = pending;
+
+                document.getElementById("resolved")
+                    .textContent = resolved;
+
+
+                document.getElementById("submitted")
+                    .textContent = submitted;
+
+                document.getElementById("inProgress")
+                    .textContent = inProgress;
+
+                document.getElementById("resolved2")
+                    .textContent = resolved;
+
+
+                /* CATEGORY */
+
+                const categories = {};
+
+                complaints.forEach(function(c) {
+
+                    categories[c.category] =
+                        (categories[c.category] || 0) + 1;
+
+                });
+
+
+                const categoryContainer =
+                    document.getElementById(
+                        "categoryData"
+                    );
+
+                categoryContainer.innerHTML = "";
+
+
+                Object.keys(categories).forEach(function(category) {
+
+                    const count =
+                        categories[category];
+
+                    const percentage =
+                        Math.round(
+                            (count / complaints.length) * 100
+                        );
+
+
+                    categoryContainer.innerHTML += `
+
+                        <div class="category-row">
+
+                            <div class="category-info">
+
+                                <strong>
+                                    ${category}
+                                </strong>
+
+                                <span>
+                                    ${count} (${percentage}%)
+                                </span>
+
+                            </div>
+
+                            <div class="bar">
+
+                                <div
+                                    class="bar-fill"
+                                    style="width:${percentage}%">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                });
+
+
+                /* DEPARTMENT */
+
+                const departments = {};
+
+                complaints.forEach(function(c) {
+
+                    departments[c.department] =
+                        (departments[c.department] || 0) + 1;
+
+                });
+
+
+                const departmentContainer =
+                    document.getElementById(
+                        "departmentData"
+                    );
+
+                departmentContainer.innerHTML = "";
+
+
+                Object.keys(departments).forEach(function(department) {
+
+                    departmentContainer.innerHTML += `
+
+                        <div class="department-card">
+
+                            <strong>
+                                ${department}
+                            </strong>
+
+                            <span>
+                                ${departments[department]}
+                                complaint(s)
+                            </span>
+
+                        </div>
+
+                    `;
+
+                });
+
+
+                /* AI INSIGHT */
+
+                let topCategory = "";
+                let topCount = 0;
+
+
+                Object.keys(categories).forEach(function(category) {
+
+                    if (categories[category] > topCount) {
+
+                        topCategory = category;
+                        topCount = categories[category];
+
+                    }
+
+                });
+
+
+                let insight =
+                    "Complaint data is being monitored by CIVICFIX AI.";
+
+
+                if (topCategory) {
+
+                    insight =
+                        `${topCategory} is currently the most reported complaint category with ${topCount} report(s). Authorities can use this insight to focus resources where they are most needed.`;
+
+                }
+
+
+                document.getElementById("aiInsight")
+                    .textContent = insight;
+
+            }
+
+            catch (error) {
+
+                console.error(error);
+
+                document.getElementById("categoryData")
+                    .textContent =
+                    "Unable to load analytics. Make sure XAMPP Apache and MySQL are running.";
+
+            }
+
+        }
+
+
+        loadAnalytics();
+
+    </script>
+
+</body>
+
+</html>

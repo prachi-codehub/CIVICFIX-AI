@@ -1,0 +1,1031 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CIVICFIX AI | Citizen Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        /* =========================
+           CITIZEN DASHBOARD
+        ========================= */
+
+        .dashboard-page {
+            min-height: 100vh;
+            background: #f7f8ff;
+        }
+
+        .dashboard-container {
+            width: 86%;
+            max-width: 1250px;
+            margin: auto;
+            padding: 45px 0 80px;
+        }
+
+        /* TOP AREA */
+
+        .dashboard-welcome {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 35px;
+        }
+
+        .dashboard-welcome span {
+            color: #7135e8;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .dashboard-welcome h1 {
+            font-size: 38px;
+            color: #241b3d;
+            margin: 5px 0;
+        }
+
+        .dashboard-welcome p {
+            color: #817b91;
+            font-size: 14px;
+        }
+
+        /* PROFILE */
+
+        .citizen-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            padding: 10px 15px;
+
+            background: white;
+            border: 1px solid #eeeaf7;
+            border-radius: 15px;
+        }
+
+        .profile-avatar {
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            color: white;
+
+            background: linear-gradient(
+                135deg,
+                #702cf5,
+                #00aeea
+            );
+
+            font-weight: 800;
+        }
+
+        .citizen-profile strong {
+            display: block;
+            font-size: 13px;
+            color: #352b4e;
+        }
+
+        .citizen-profile small {
+            color: #8c8699;
+            font-size: 10px;
+        }
+
+        /* STATS */
+
+        .dashboard-stats {
+            display: grid;
+
+            grid-template-columns: repeat(4, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 35px;
+        }
+
+        .dashboard-stat {
+            background: white;
+
+            padding: 22px;
+
+            border-radius: 18px;
+
+            border: 1px solid #eeeaf7;
+
+            transition: 0.3s;
+        }
+
+        .dashboard-stat:hover {
+            transform: translateY(-5px);
+
+            box-shadow:
+                0 15px 30px rgba(60, 38, 100, 0.08);
+        }
+
+        .stat-icon {
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background: #f0ebff;
+
+            font-size: 18px;
+
+            margin-bottom: 15px;
+        }
+
+        .dashboard-stat strong {
+            display: block;
+
+            font-size: 28px;
+
+            color: #322052;
+        }
+
+        .dashboard-stat span {
+            color: #898298;
+
+            font-size: 12px;
+        }
+
+        /* MAIN GRID */
+
+        .dashboard-grid {
+            display: grid;
+
+            grid-template-columns: 1.7fr 1fr;
+
+            gap: 22px;
+        }
+
+        /* CARD */
+
+        .dashboard-card {
+            background: white;
+
+            border: 1px solid #eeeaf7;
+
+            border-radius: 20px;
+
+            padding: 25px;
+
+            margin-bottom: 22px;
+        }
+
+        .card-heading {
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 22px;
+        }
+
+        .card-heading h2 {
+            font-size: 19px;
+
+            color: #30244d;
+        }
+
+        .card-heading a {
+            font-size: 11px;
+
+            color: #7135e8;
+
+            font-weight: 700;
+        }
+
+        /* COMPLAINT */
+
+        .complaint-item {
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            padding: 15px 0;
+
+            border-bottom: 1px solid #f0edf7;
+        }
+
+        .complaint-item:last-child {
+            border-bottom: none;
+        }
+
+        .complaint-icon {
+            width: 45px;
+            height: 45px;
+
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background: #f2edff;
+
+            font-size: 19px;
+        }
+
+        .complaint-info {
+            flex: 1;
+        }
+
+        .complaint-info strong {
+            display: block;
+
+            color: #34294d;
+
+            font-size: 13px;
+        }
+
+        .complaint-info small {
+            color: #918a9e;
+
+            font-size: 10px;
+        }
+
+        /* STATUS */
+
+        .status {
+            padding: 6px 10px;
+
+            border-radius: 20px;
+
+            font-size: 9px;
+
+            font-weight: 800;
+        }
+
+        .status.pending {
+            background: #fff5dd;
+            color: #c48718;
+        }
+
+        .status.progress {
+            background: #e9f5ff;
+            color: #1685c5;
+        }
+
+        .status.resolved {
+            background: #e4fff3;
+            color: #159563;
+        }
+
+        /* QUICK ACTION */
+
+        .quick-action {
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            padding: 16px;
+
+            margin-bottom: 12px;
+
+            border-radius: 14px;
+
+            background: #faf9ff;
+
+            border: 1px solid #eeeaf7;
+
+            transition: 0.3s;
+        }
+
+        .quick-action:hover {
+            transform: translateX(5px);
+
+            border-color: #cfc0f5;
+        }
+
+        .quick-icon {
+            width: 40px;
+            height: 40px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 11px;
+
+            background: #eee7ff;
+
+            font-size: 17px;
+        }
+
+        .quick-action strong {
+            display: block;
+
+            font-size: 12px;
+
+            color: #392d53;
+        }
+
+        .quick-action small {
+            color: #91899f;
+
+            font-size: 10px;
+        }
+
+        /* AI CARD */
+
+        .ai-card {
+            padding: 25px;
+
+            border-radius: 20px;
+
+            color: white;
+
+            background:
+                radial-gradient(
+                    circle at 90% 10%,
+                    rgba(0, 198, 255, 0.25),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    #321263,
+                    #6331b4
+                );
+
+            box-shadow:
+                0 18px 35px rgba(71, 35, 128, 0.18);
+        }
+
+        .ai-card .ai-symbol {
+            width: 45px;
+            height: 45px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 13px;
+
+            background: rgba(255,255,255,0.12);
+
+            font-size: 21px;
+
+            margin-bottom: 17px;
+        }
+
+        .ai-card h2 {
+            font-size: 20px;
+
+            margin-bottom: 8px;
+        }
+
+        .ai-card p {
+            color: #d2c9e5;
+
+            font-size: 12px;
+
+            margin-bottom: 20px;
+        }
+
+        .ai-card a {
+            display: inline-block;
+
+            padding: 10px 15px;
+
+            border-radius: 10px;
+
+            background: white;
+
+            color: #5d2ac3;
+
+            font-size: 11px;
+
+            font-weight: 800;
+        }
+
+        /* PROGRESS */
+
+        .progress-box {
+            margin-top: 20px;
+        }
+
+        .progress-label {
+            display: flex;
+
+            justify-content: space-between;
+
+            font-size: 10px;
+
+            color: #d0c6e5;
+
+            margin-bottom: 8px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+
+            border-radius: 10px;
+
+            background: rgba(255,255,255,0.15);
+        }
+
+        .progress-fill {
+            width: 72%;
+            height: 100%;
+
+            border-radius: 10px;
+
+            background: #72e4ff;
+        }
+
+        /* BACK BUTTON */
+
+        .back-home {
+            display: inline-block;
+
+            margin-bottom: 25px;
+
+            font-size: 12px;
+
+            color: #7135e8;
+
+            font-weight: 700;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 900px) {
+
+            .dashboard-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-welcome {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 550px) {
+
+            .dashboard-container {
+                width: 90%;
+            }
+
+            .dashboard-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-welcome h1 {
+                font-size: 30px;
+            }
+
+            .complaint-item {
+                align-items: flex-start;
+            }
+
+            .status {
+                display: none;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- NAVIGATION -->
+
+    <header class="navbar">
+
+        <a href="index.html" class="logo">
+
+            <span class="logo-icon">✦</span>
+
+            CIVICFIX
+            <small>AI</small>
+
+        </a>
+
+
+        <nav>
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="citizen.html" class="active">
+                Citizen
+            </a>
+
+            <a href="report.html">
+                Report Issue
+            </a>
+
+            <a href="#">
+                About
+            </a>
+
+        </nav>
+
+
+        <a href="report.html" class="nav-btn">
+
+            Report Problem
+
+            <span>↗</span>
+
+        </a>
+
+    </header>
+
+
+
+    <!-- DASHBOARD -->
+
+    <main class="dashboard-page">
+
+        <div class="dashboard-container">
+
+
+            <a href="index.html" class="back-home">
+                ← Back to Home
+            </a>
+
+
+            <!-- WELCOME -->
+
+            <div class="dashboard-welcome">
+
+                <div>
+
+                    <span>
+                        CITIZEN PORTAL
+                    </span>
+
+                    <h1>
+                        Welcome Back, Citizen 👋
+                    </h1>
+
+                    <p>
+                        Manage your civic complaints and
+                        help make your city better.
+                    </p>
+
+                </div>
+
+
+                <div class="citizen-profile">
+
+                    <div class="profile-avatar">
+                        PW
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Citizen User
+                        </strong>
+
+                        <small>
+                            Verified Citizen
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- STATISTICS -->
+
+            <section class="dashboard-stats">
+
+
+                <div class="dashboard-stat">
+
+                    <div class="stat-icon">
+                        📝
+                    </div>
+
+                    <strong>
+                        08
+                    </strong>
+
+                    <span>
+                        Total Reports
+                    </span>
+
+                </div>
+
+
+                <div class="dashboard-stat">
+
+                    <div class="stat-icon">
+                        ⏳
+                    </div>
+
+                    <strong>
+                        03
+                    </strong>
+
+                    <span>
+                        Pending
+                    </span>
+
+                </div>
+
+
+                <div class="dashboard-stat">
+
+                    <div class="stat-icon">
+                        🔄
+                    </div>
+
+                    <strong>
+                        02
+                    </strong>
+
+                    <span>
+                        In Progress
+                    </span>
+
+                </div>
+
+
+                <div class="dashboard-stat">
+
+                    <div class="stat-icon">
+                        ✓
+                    </div>
+
+                    <strong>
+                        03
+                    </strong>
+
+                    <span>
+                        Resolved
+                    </span>
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- MAIN GRID -->
+
+            <div class="dashboard-grid">
+
+
+                <!-- RECENT COMPLAINTS -->
+
+                <section class="dashboard-card">
+
+                    <div class="card-heading">
+
+                        <h2>
+                            Recent Complaints
+                        </h2>
+
+                        <a href="#">
+                            View All →
+                        </a>
+
+                    </div>
+
+
+                    <!-- COMPLAINT 1 -->
+
+                    <div class="complaint-item">
+
+                        <div class="complaint-icon">
+                            🚧
+                        </div>
+
+                        <div class="complaint-info">
+
+                            <strong>
+                                Road Pothole
+                            </strong>
+
+                            <small>
+                                CIVIC-1024 • Main Road
+                            </small>
+
+                        </div>
+
+                        <span class="status progress">
+                            In Progress
+                        </span>
+
+                    </div>
+
+
+                    <!-- COMPLAINT 2 -->
+
+                    <div class="complaint-item">
+
+                        <div class="complaint-icon">
+                            💡
+                        </div>
+
+                        <div class="complaint-info">
+
+                            <strong>
+                                Streetlight Not Working
+                            </strong>
+
+                            <small>
+                                CIVIC-1019 • College Road
+                            </small>
+
+                        </div>
+
+                        <span class="status pending">
+                            Pending
+                        </span>
+
+                    </div>
+
+
+                    <!-- COMPLAINT 3 -->
+
+                    <div class="complaint-item">
+
+                        <div class="complaint-icon">
+                            🗑️
+                        </div>
+
+                        <div class="complaint-info">
+
+                            <strong>
+                                Garbage Collection
+                            </strong>
+
+                            <small>
+                                CIVIC-1008 • Ward 12
+                            </small>
+
+                        </div>
+
+                        <span class="status resolved">
+                            Resolved
+                        </span>
+
+                    </div>
+
+
+                    <!-- COMPLAINT 4 -->
+
+                    <div class="complaint-item">
+
+                        <div class="complaint-icon">
+                            💧
+                        </div>
+
+                        <div class="complaint-info">
+
+                            <strong>
+                                Water Leakage
+                            </strong>
+
+                            <small>
+                                CIVIC-0998 • Station Road
+                            </small>
+
+                        </div>
+
+                        <span class="status resolved">
+                            Resolved
+                        </span>
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- RIGHT SIDE -->
+
+                <aside>
+
+
+                    <!-- QUICK ACTIONS -->
+
+                    <section class="dashboard-card">
+
+                        <div class="card-heading">
+
+                            <h2>
+                                Quick Actions
+                            </h2>
+
+                        </div>
+
+
+                        <a href="report.html"
+                           class="quick-action">
+
+                            <div class="quick-icon">
+                                📸
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Report New Issue
+                                </strong>
+
+                                <small>
+                                    Submit a civic complaint
+                                </small>
+
+                            </div>
+
+                        </a>
+
+
+                        <a href="#"
+                           class="quick-action">
+
+                            <div class="quick-icon">
+                                🔍
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Track Complaint
+                                </strong>
+
+                                <small>
+                                    Check complaint status
+                                </small>
+
+                            </div>
+
+                        </a>
+
+
+                        <a href="#"
+                           class="quick-action">
+
+                            <div class="quick-icon">
+                                📊
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Complaint History
+                                </strong>
+
+                                <small>
+                                    View previous reports
+                                </small>
+
+                            </div>
+
+                        </a>
+
+                    </section>
+
+
+
+                    <!-- AI CARD -->
+
+                    <section class="ai-card">
+
+                        <div class="ai-symbol">
+                            ✦
+                        </div>
+
+                        <h2>
+                            CIVICFIX AI
+                        </h2>
+
+                        <p>
+                            Our AI helps analyze your complaint,
+                            identify priority and route it to
+                            the correct department.
+                        </p>
+
+
+                        <a href="report.html">
+                            Report With AI →
+                        </a>
+
+
+                        <div class="progress-box">
+
+                            <div class="progress-label">
+
+                                <span>
+                                    Community Impact
+                                </span>
+
+                                <strong>
+                                    72%
+                                </strong>
+
+                            </div>
+
+                            <div class="progress-bar">
+
+                                <div class="progress-fill">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+                </aside>
+
+
+            </div>
+
+
+        </div>
+
+    </main>
+
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <div class="footer-brand">
+
+            <span class="logo-icon">
+                ✦
+            </span>
+
+            CIVICFIX AI
+
+        </div>
+
+        <p>
+            AI-Powered Smart Civic Complaint &
+            Resolution Platform
+        </p>
+
+        <div class="footer-team">
+
+            <strong>
+                CivicNova
+            </strong>
+
+            <span>
+                • AI for Smart & Sustainable Cities
+            </span>
+
+        </div>
+
+        <small>
+            © 2026 CivicNova. All Rights Reserved.
+        </small>
+
+    </footer>
+
+
+</body>
+
+</html>
+```
